@@ -11,10 +11,10 @@
 #include <misc/printk.h>
 #include <nrf.h>
 #include <pm_config.h>
-#include "bootloader.h"
+#include <bl_validation.h>
 #include <bl_crypto.h>
-#include <fw_metadata.h>
-#include <fprotect.h>
+#include <fw_info.h>
+#include <drivers/fprotect.h>
 #include <provision.h>
 #ifdef CONFIG_UART_NRFX
 #ifdef CONFIG_UART_0_NRF_UART
@@ -23,69 +23,6 @@
 #include <hal/nrf_uarte.h>
 #endif
 #endif
-
-
-static bool verify_firmware(u32_t address)
-{
-	/* Some key data storage backends require word sized reads, hence
-	 * we need to ensure word alignment for 'key_data'
-	 */
-	u32_t key_data[CONFIG_SB_PUBLIC_KEY_HASH_LEN/4];
-	int retval = -EFAULT;
-	int err;
-	const struct fw_firmware_info *fw_info;
-	const struct fw_validation_info *fw_ver_info;
-
-	fw_info = fw_find_firmware_info(address);
-
-	if (!fw_info) {
-		printk("Could not find valid firmware info inside "
-				    "firmware. Aborting boot!\n\r");
-		return false;
-	}
-
-	fw_ver_info = validation_info_find(fw_info, 4);
-
-	if (!fw_ver_info) {
-		printk("Could not find valid firmware validation "
-			  "info trailing firmware. Aborting boot!\n\r");
-		return false;
-	}
-
-	err = bl_crypto_init();
-	if (err) {
-		printk("bl_crypto_init() returned %d. Aborting boot!\n\r", err);
-		return false;
-	}
-
-	u32_t num_public_keys = num_public_keys_read();
-
-	for (u32_t key_data_idx = 0; key_data_idx < num_public_keys;
-			key_data_idx++) {
-		if (public_key_data_read(key_data_idx, &key_data[0],
-				CONFIG_SB_PUBLIC_KEY_HASH_LEN) < 0) {
-			retval = -EFAULT;
-			break;
-		}
-		retval = bl_root_of_trust_verify(fw_ver_info->public_key,
-					      (u8_t *)key_data,
-					      fw_ver_info->signature,
-					      (u8_t *)address,
-					      fw_info->firmware_size);
-		if (retval != -ESIGINV) {
-			break;
-		}
-	}
-
-	if (retval != 0) {
-		printk("Firmware validation failed with error %d. "
-			    "Aborting boot!\n\r",
-			    retval);
-		return false;
-	}
-
-	return true;
-}
 
 static void uninit_used_peripherals(void)
 {
@@ -107,14 +44,15 @@ extern u32_t _vector_table_pointer;
 #define VTOR SCB->VTOR
 #endif
 
-static void boot_from(const struct fw_firmware_info *fw_info)
+static void boot_from(const struct fw_info *fw_info)
 {
 	u32_t *vector_table = (u32_t *)fw_info->firmware_address;
 
 	printk("Attempting to boot from address 0x%x.\n\r",
 		fw_info->firmware_address);
 
-	if (!verify_firmware(fw_info->firmware_address)) {
+	if (!bl_validate_firmware_local(fw_info->firmware_address,
+					fw_info)) {
 		printk("Failed to validate!\n\r");
 		return;
 	}
@@ -161,7 +99,7 @@ static void boot_from(const struct fw_firmware_info *fw_info)
 
 	VTOR = fw_info->firmware_address;
 
-	fw_abi_provide(fw_info);
+	fw_info_abi_provide(fw_info);
 
 	/* Set MSP to the new address and clear any information from PSP */
 	__set_MSP(vector_table[0]);
@@ -183,8 +121,8 @@ void main(void)
 
 	u32_t s0_addr = s0_address_read();
 	u32_t s1_addr = s1_address_read();
-	const struct fw_firmware_info *s0_info = fw_find_firmware_info(s0_addr);
-	const struct fw_firmware_info *s1_info = fw_find_firmware_info(s1_addr);
+	const struct fw_info *s0_info = fw_info_find(s0_addr);
+	const struct fw_info *s1_info = fw_info_find(s1_addr);
 
 	if (!s1_info || (s0_info->firmware_version >=
 			 s1_info->firmware_version)) {

@@ -10,6 +10,7 @@ from configurator_core import DEVICE
 from configurator_core import get_device_pid, open_device
 from configurator_core import fwinfo, fwreboot, change_config, fetch_config
 from configurator_core import dfu_transfer, get_dfu_image_version
+from led_stream import send_continuous_led_stream, send_music_led_stream
 
 
 def progress_bar(permil):
@@ -71,6 +72,7 @@ def perform_config(dev, args):
     device_options = module_config['options']
 
     config_name = args.option
+    value_type = device_options[config_name].type
     recipient = get_device_pid(args.device_type)
 
     if args.value is None:
@@ -80,7 +82,11 @@ def perform_config(dev, args):
         else:
             print('Failed to fetch {}'.format(config_name))
     else:
-        config_value = int(args.value)
+        try:
+            config_value = value_type(args.value)
+        except ValueError:
+            print('Invalid type for {}. Expected {}'.format(config_name, value_type))
+            return
         success = change_config(dev, recipient, config_name, config_value, device_options, module_id)
 
         if success:
@@ -111,6 +117,17 @@ def perform_fwreboot(dev, args):
         print('FW reboot request failed')
 
 
+def perform_led_stream(dev, args):
+    recipient = get_device_pid(args.device_type)
+
+    if args.file is not None:
+        send_music_led_stream(dev, recipient, DEVICE[args.device_type],
+                              args.led_id, args.freq, args.file)
+    else:
+        send_continuous_led_stream(dev, recipient, DEVICE[args.device_type],
+                                   args.led_id, args.freq)
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser()
     sp_devices = parser.add_subparsers(dest='device_type')
@@ -130,6 +147,12 @@ def parse_arguments():
 
         sp_commands.add_parser('fwinfo', help='Obtain information about FW image')
         sp_commands.add_parser('fwreboot', help='Request FW reboot')
+
+        parser_stream = sp_commands.add_parser('led_stream',
+                                    help='Send continuous LED effects stream')
+        parser_stream.add_argument('led_id', type=int, help='Stream LED ID')
+        parser_stream.add_argument('freq', type=int, help='Color change frequency (in Hz)')
+        parser_stream.add_argument('--file', type=str, help='Selected audio file (*.wav)')
 
         device_config = DEVICE[device_name]['config']
 
@@ -153,7 +176,7 @@ def parse_arguments():
                 for opt_name in module_opts:
                     parser_config_module_opt = sp_config_module.add_parser(opt_name, help=module_opts[opt_name].help)
                     parser_config_module_opt.add_argument(
-                        'value', type=int, default=None, nargs='?',
+                        'value', type=str, default=None, nargs='?',
                         help='int from range {}'.format(module_opts[opt_name].range))
 
     return parser.parse_args()
@@ -169,14 +192,15 @@ def configurator():
     if not dev:
         return
 
-    if args.command == 'dfu':
-        perform_dfu(dev, args)
-    elif args.command == 'fwinfo':
-        perform_fwinfo(dev, args)
-    elif args.command == 'fwreboot':
-        perform_fwreboot(dev, args)
-    elif args.command == 'config':
-        perform_config(dev, args)
+    configurator.ALLOWED_COMMANDS[args.command](dev, args)
+
+configurator.ALLOWED_COMMANDS = {
+    'dfu' : perform_dfu,
+    'fwinfo' : perform_fwinfo,
+    'fwreboot' : perform_fwreboot,
+    'config' : perform_config,
+    'led_stream' : perform_led_stream
+}
 
 
 if __name__ == '__main__':

@@ -266,6 +266,8 @@ static int z_to_nrf_family(sa_family_t z_family)
 		return NRF_AF_LTE;
 	case AF_LOCAL:
 		return NRF_AF_LOCAL;
+	case AF_PACKET:
+		return NRF_AF_PACKET;
 	case AF_UNSPEC:
 	/* No NRF_AF_UNSPEC defined. */
 	default:
@@ -284,6 +286,8 @@ static int nrf_to_z_family(nrf_socket_family_t nrf_family)
 		return AF_LTE;
 	case NRF_AF_LOCAL:
 		return AF_LOCAL;
+	case NRF_AF_PACKET:
+		return AF_PACKET;
 	default:
 		return -EAFNOSUPPORT;
 	}
@@ -323,6 +327,8 @@ static int z_to_nrf_socktype(int socktype)
 	switch (socktype) {
 	case SOCK_MGMT:
 		return NRF_SOCK_MGMT;
+	case SOCK_RAW:
+		return NRF_SOCK_RAW;
 	default:
 		return socktype;
 	}
@@ -934,18 +940,13 @@ static int nrf91_bsdlib_socket_offload_init(struct device *arg)
 
 static struct nrf91_socket_iface_data {
 	struct net_if *iface;
-	u8_t dummy_link_addr;
 } nrf91_socket_iface_data;
 
 static void nrf91_socket_iface_init(struct net_if *iface)
 {
 	nrf91_socket_iface_data.iface = iface;
 
-	/* FIXME Zephyr's interface initialization function checks for link
-	 *       address presence, set dummy placeholder for now.
-	 */
-	net_if_set_link_addr(iface, &nrf91_socket_iface_data.dummy_link_addr, 1,
-			     NET_LINK_UNKNOWN);
+	iface->if_dev->offloaded = true;
 
 	socket_offload_register(&nrf91_socket_offload_ops);
 }

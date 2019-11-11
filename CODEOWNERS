@@ -32,12 +32,14 @@
 /include/debug/ppi_trace.h                @nordic-krch
 /include/                                 @anangl @rlubos @pizi-nordic
 /include/bluetooth/                       @joerchan
+/include/bluetooth/mesh/                  @trond-snekvik @joerchan
 /include/drivers/                         @anangl
 /include/net/                             @rlubos
 /include/nfc/                             @anangl @grochu
 /include/shell/                           @nordic-krch @jarz-nordic
 /lib/at_cmd_parser/                       @rlubos
 /lib/at_host/                             @rlubos
+/lib/at_notif/                            @pkchan
 /lib/bsdlib/                              @rlubos
 /lib/modem_info/                          @rlubos
 /lib/pdn_management/                      @rlubos
@@ -57,10 +59,12 @@ subsys/debug/CMakeLists.txt               @nordic-krch
 /scripts/                                 @mbolivar @tejlmand
 /scripts/hid_configurator/                @pdunaj
 /subsys/bluetooth/                        @joerchan @carlescufi
+/subsys/bluetooth/mesh/                   @trond-snekvik @joerchan
 /subsys/bootloader/                       @hakonfam @ioannisg
+/subsys/dfu/                              @hakonfam @sigvartmh
 /subsys/enhanced_shockburst/              @Raane @lemrey
 /subsys/event_manager/                    @pdunaj
-/subsys/fw_metadata/                      @hakonfam
+/subsys/fw_info/                          @hakonfam
 /subsys/net/                              @rlubos
 /subsys/nfc/                              @grochu @anangl
 /subsys/partition_manager/                @hakonfam

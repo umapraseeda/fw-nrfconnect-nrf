@@ -44,6 +44,7 @@ enum peer_state {
 #define PEER_OPERATION_LIST	\
 	X(SELECT)		\
 	X(SELECTED)		\
+	X(SCAN_REQUEST)		\
 	X(ERASE)		\
 	X(ERASE_ADV)		\
 	X(ERASE_ADV_CANCEL)	\
@@ -91,6 +92,14 @@ struct ble_peer_operation_event {
 	u8_t bt_stack_id;
 };
 EVENT_TYPE_DECLARE(ble_peer_operation_event);
+
+/** @brief BLE peer search event. */
+struct ble_peer_search_event {
+	struct event_header header;
+
+	bool active;
+};
+EVENT_TYPE_DECLARE(ble_peer_search_event);
 
 /** @brief BLE discovery complete event. */
 struct ble_discovery_complete_event {

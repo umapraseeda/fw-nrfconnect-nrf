@@ -41,7 +41,7 @@ static enum fota_status fota_state = NONE;
 static u32_t doc_version_number = 1;
 
 /* Buffer for reporting the current application version */
-static char version[CONFIG_VERSION_STRING_MAX_LEN];
+static char version[CONFIG_AWS_FOTA_VERSION_STRING_MAX_LEN];
 
 /* Allocated strings for topics */
 static u8_t notify_next_topic[AWS_JOBS_TOPIC_MAX_LEN];
@@ -77,52 +77,6 @@ static int get_published_payload(struct mqtt_client *client, u8_t *write_buf,
 	return 0;
 }
 
-/* Topic for updating shadow topic with version number */
-#define UPDATE_DELTA_TOPIC AWS "%s/shadow/update"
-#define SHADOW_STATE_UPDATE \
-"{\"state\":{\"reported\":{\"nrfcloud__dfu_v1__app_v\":\"%s\"}}}"
-
-static int update_device_shadow_version(struct mqtt_client *const client)
-{
-	struct mqtt_publish_param param;
-	char update_delta_topic[AWS_JOBS_TOPIC_MAX_LEN];
-	u8_t shadow_update_payload[CONFIG_DEVICE_SHADOW_PAYLOAD_SIZE];
-
-	int ret = snprintf(update_delta_topic,
-			   sizeof(update_delta_topic),
-			   UPDATE_DELTA_TOPIC,
-			   client->client_id.utf8);
-	u32_t update_delta_topic_len = ret;
-
-	if (ret >= sizeof(update_delta_topic)) {
-		return -ENOMEM;
-	} else if (ret < 0) {
-		return ret;
-	}
-
-	ret = snprintf(shadow_update_payload,
-		       sizeof(shadow_update_payload),
-		       SHADOW_STATE_UPDATE,
-		       version);
-	u32_t shadow_update_payload_len = ret;
-
-	if (ret >= sizeof(shadow_update_payload)) {
-		return -ENOMEM;
-	} else if (ret < 0) {
-		return ret;
-	}
-
-	param.message.topic.qos = MQTT_QOS_1_AT_LEAST_ONCE;
-	param.message.topic.topic.utf8 = update_delta_topic;
-	param.message.topic.topic.size = update_delta_topic_len;
-	param.message.payload.data = shadow_update_payload;
-	param.message.payload.len = shadow_update_payload_len;
-	param.message_id = sys_rand32_get();
-	param.dup_flag = 0;
-	param.retain_flag = 0;
-
-	return mqtt_publish(client, &param);
-}
 
 #define AWS_FOTA_STATUS_DETAILS_TEMPLATE "{\"nextState\":\"%s\"}"
 #define STATUS_DETAILS_MAX_LEN  (sizeof("{\"nextState\":\"\"}") \
@@ -299,12 +253,6 @@ int aws_fota_mqtt_evt_handler(struct mqtt_client *const client,
 			return err;
 		}
 
-		err = update_device_shadow_version(client);
-		if (err) {
-			LOG_ERR("Unable to update device shadow");
-			return err;
-		}
-
 		return 0;
 		/* This expects that the application's mqtt handler will handle
 		 * any situations where you could not connect to the MQTT
@@ -424,7 +372,7 @@ int aws_fota_init(struct mqtt_client *const client,
 		return -EINVAL;
 	}
 
-	if (strlen(app_version) >= CONFIG_VERSION_STRING_MAX_LEN) {
+	if (strlen(app_version) >= CONFIG_AWS_FOTA_VERSION_STRING_MAX_LEN) {
 		return -EINVAL;
 	}
 
@@ -438,7 +386,7 @@ int aws_fota_init(struct mqtt_client *const client,
 		return err;
 	}
 
-	strncpy(version, app_version, CONFIG_VERSION_STRING_MAX_LEN);
+	strncpy(version, app_version, CONFIG_AWS_FOTA_VERSION_STRING_MAX_LEN);
 
 	return 0;
 }

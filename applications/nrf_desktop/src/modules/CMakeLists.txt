@@ -8,6 +8,9 @@ target_sources(app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ble_state.c)
 
 target_sources(app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ble_bond.c)
 
+target_sources_ifdef(CONFIG_BT_PERIPHERAL
+		     app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ble_latency.c)
+
 target_sources_ifdef(CONFIG_DESKTOP_BLE_ADVERTISING_ENABLE
 		     app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ble_adv.c)
 
@@ -16,6 +19,9 @@ target_sources_ifdef(CONFIG_DESKTOP_BLE_DISCOVERY_ENABLE
 
 target_sources_ifdef(CONFIG_DESKTOP_BLE_SCANNING_ENABLE
 		     app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ble_scan.c)
+
+target_sources_ifdef(CONFIG_DESKTOP_BLE_QOS_ENABLE
+		     app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ble_qos.c)
 
 target_sources_ifdef(CONFIG_DESKTOP_CONFIG_ENABLE
 		     app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/config.c)

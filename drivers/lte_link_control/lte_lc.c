@@ -15,6 +15,7 @@
 #include <at_cmd.h>
 #include <at_cmd_parser/at_cmd_parser.h>
 #include <at_cmd_parser/at_params.h>
+#include <at_notif.h>
 #include <logging/log.h>
 
 LOG_MODULE_REGISTER(lte_lc, CONFIG_LTE_LINK_CONTROL_LOG_LEVEL);
@@ -78,6 +79,9 @@ static const char lock_bands[] = "AT%XBANDLOCK=2,\""CONFIG_LTE_LOCK_BAND_MASK
 /* Lock PLMN */
 static const char lock_plmn[] = "AT+COPS=1,2,\""
 				 CONFIG_LTE_LOCK_PLMN_STRING"\"";
+#elif defined(CONFIG_LTE_UNLOCK_PLMN)
+/* Unlock PLMN */
+static const char unlock_plmn[] = "AT+COPS=0";
 #endif
 /* Request eDRX settings to be used */
 static const char edrx_req[] = "AT+CEDRXS=1,"CONFIG_LTE_EDRX_REQ_ACTT_TYPE
@@ -131,8 +135,10 @@ static const char cgauth[] = "AT+CGAUTH="CONFIG_LTE_PDN_AUTH;
 static const char legacy_pco[] = "AT%XEPCO=0";
 #endif
 
-void at_handler(char *response)
+void at_handler(void *context, char *response)
 {
+	ARG_UNUSED(context);
+
 	int err;
 	enum lte_lc_nw_reg_status status;
 
@@ -181,10 +187,16 @@ static int w_lte_lc_init(void)
 	}
 #endif
 #if defined(CONFIG_LTE_LOCK_PLMN)
-	/* Set Operator (volatile setting).
+	/* Manually select Operator (volatile setting).
 	 * Has to be done every time before activating the modem.
 	 */
 	if (at_cmd_write(lock_plmn, NULL, 0, NULL) != 0) {
+		return -EIO;
+	}
+#elif defined(CONFIG_LTE_UNLOCK_PLMN)
+	/* Automatically select Operator (volatile setting).
+	 */
+	if (at_cmd_write(unlock_plmn, NULL, 0, NULL) != 0) {
 		return -EIO;
 	}
 #endif
@@ -212,12 +224,17 @@ static int w_lte_lc_init(void)
 
 static int w_lte_lc_connect(void)
 {
-	int err;
+	int err, rc;
 	const char *current_network_mode = nw_mode_preferred;
 	bool retry;
 
 	k_sem_init(&link, 0, 1);
-	at_cmd_set_notification_handler(at_handler);
+
+	rc = at_notif_register_handler(NULL, at_handler);
+	if (rc != 0) {
+		LOG_ERR("Can't register handler rc=%d", rc);
+		return rc;
+	}
 
 	do {
 		retry = false;
@@ -256,7 +273,10 @@ static int w_lte_lc_connect(void)
 	} while (retry);
 
 exit:
-	at_cmd_set_notification_handler(NULL);
+	rc = at_notif_deregister_handler(NULL, at_handler);
+	if (rc != 0) {
+		LOG_ERR("Can't de-register handler rc=%d", rc);
+	}
 
 	return err;
 }
