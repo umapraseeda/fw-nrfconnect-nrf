@@ -240,10 +240,12 @@
 .. _`mscgen`: http://www.mcternan.me.uk/mscgen/
 
 .. _`Azure Firmware Over The Air (FOTA)`: https://docs.microsoft.com/en-us/azure/iot-hub/tutorial-firmware-update
-.. _`Azure IoT Hub`: https://azure.microsoft.com/en-us/services/iot-hub/
-.. _`Azure IoT Hub DPS`: https://docs.microsoft.com/en-us/azure/iot-dps/
+.. _`Azure IoT Hub`: https://docs.microsoft.com/en-us/azure/iot-hub/about-iot-hub
+.. _`Creating an IoT Hub using the Azure portal`: https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-create-through-portal
+.. _`Azure IoT Hub Device Provisioning Service (DPS)`: https://docs.microsoft.com/en-us/azure/iot-dps/
+.. _`Set up an Azure IoT Hub Device Provisioning Service (DPS) instance`: https://docs.microsoft.com/en-us/azure/iot-dps/quick-setup-auto-provision
 .. _`Azure Portal`: https://portal.azure.com/
-.. _`Create Azure IoT Hub certificates`: https://github.com/Azure/azure-iot-sdk-c/blob/master/tools/CACertificates/CACertificateOverview.md
+.. _`Creating Azure IoT Hub certificates`: https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-security-x509-get-started
 .. _`Azure IoT Hub direct method`: https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-direct-methods
 .. _`Baltimore CyberTrust Root certificate`: https://www.digicert.com/CACerts/BaltimoreCyberTrustRoot.crt.pem
 .. _`Azure IoT Hub MQTT protocol support`: https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-mqtt-support
