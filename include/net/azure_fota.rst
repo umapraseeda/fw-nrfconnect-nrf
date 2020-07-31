@@ -35,6 +35,8 @@ If TLS is used the maximum total fragment size which also includes the HTTP head
 
 It is up to the application that uses the library to restart the device when the FOTA is complete and an :cpp:enumerator:`AZURE_FOTA_EVT_DONE` event is received.
 
+The Azure FOTA library is used in the :ref:`azure_fota_sample` sample.
+
 .. note::
    The current implementation is experimental and may change and improve
 in future releases.
