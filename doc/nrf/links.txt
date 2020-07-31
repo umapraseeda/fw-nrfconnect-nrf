@@ -237,6 +237,11 @@
 
 .. _`mscgen`: http://www.mcternan.me.uk/mscgen/
 
+.. _`Azure Firmware Over The Air (FOTA)`: https://docs.microsoft.com/en-us/azure/iot-hub/tutorial-firmware-update
+.. _`Azure IoT Hub`: https://azure.microsoft.com/en-us/services/iot-hub/
+.. _`Azure IoT Hub DPS`: https://docs.microsoft.com/en-us/azure/iot-dps/
+.. _`Azure Portal`: https://portal.azure.com/
+
 .. ### Links to Bluetooth specs
 
 .. _`Bluetooth Core Specification`: https://www.bluetooth.com/specifications/bluetooth-core-specification
