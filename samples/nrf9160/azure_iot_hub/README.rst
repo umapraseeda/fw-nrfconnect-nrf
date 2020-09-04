@@ -6,37 +6,9 @@ nRF9160: Azure IoT Hub
 The Azure IoT Hub sample shows the communication of an nRF9160-based device with an `Azure IoT Hub`_.
 This sample uses the :ref:`lib_azure_iot_hub` library to communicate with the IoT hub.
 
-Overview
-********
-
-The sample supports connecting to an Azure IoT Hub directly for an already registered IoT device, or by using `Azure IoT Hub DPS`_ to first provision the device to an IoT Hub.
-More details on this can be found in :ref:`lib_azure_iot_hub`.
-
-The sample periodically publishes telemetry messages (events) to the connected Azure IoT Hub.
-Telemetry messages are by default sent every 20 seconds.
-The default interval can be configured by setting the device twin property `desired.telemetryInterval`, which will be interpreted by the sample in units of seconds.
-A telemetry message is formatted like this:
-
-.. parsed-literal::
-:class: highlight
-
-    {
-        "temperature" : 25.2,
-	"timestamp": 151325
-    }
-
-where `temperature` is a value between 25.0 and 25.9, and `timestamp` is the board's uptime in milliseconds.
-
-The sample has implemented handling of `Azure IoT Hub direct method`_ with name `led`.
-If the device receives a direct method invocation with name `led` and payload `1` or `0`, LED 1 on the board will be turned on or off, respectively.
-
 
 Requirements
 ************
-
-An Azure IoT Hub instance must be set up and configured per the instructions in `_configuration_options`_ for the sample to work as intended.
-The device needs to have certificates provisioned for the TLS connection to Azure IoT Hub to successfully be established.
-Follow the instructions in `_connect_to_azure_iot_hub`_ to set up an Azure IoT Hub and provision required certificates to the device.
 
 The sample supports the following development kits:
 
@@ -46,35 +18,74 @@ The sample supports the following development kits:
 
 .. include:: /includes/spm.txt
 
+Overview
+********
 
-.. _configure_options:
+The sample supports the direct connection of an already registered IoT device to an Azure IoT Hub.
+Alternatively, it also supports the provisioning of the device using `Azure IoT Hub Device Provisioning Service (DPS)`_ to an IoT Hub.
+See the documentation on :ref:`lib_azure_iot_hub` library for more information.
+
+The sample periodically publishes telemetry messages (events) to the connected Azure IoT Hub.
+By default, telemetry messages are sent every 20 seconds.
+The default interval can be configured by setting the device twin property ``desired.telemetryInterval``, which will be interpreted by the sample in units of seconds.
+The format of a telemetry message is shown below:
+
+.. parsed-literal::
+   :class: highlight
+
+   {
+     "temperature" : 25.2,
+	"timestamp": 151325
+    }
+
+where ``temperature`` is a value between ``25.0`` and ``25.9``, and ``timestamp`` is the uptime of the device in milliseconds.
+
+The sample has implemented the handling of `Azure IoT Hub direct method`_ with the name ``led``.
+If the device receives a direct method invocation with the name ``led`` and payload ``1`` or ``0``, LED 1 on the device is turned on or off, depending on the payload.
+On Thingy:91, the LED turns red if the payload is ``1``.
+
+
+
+.. _configure_options_azure_iot:
 
 Configuration
 *************
 
-The minimum :ref:`lib_azure_iot_hub` Kconfig options needed to be configured in this sample are the following:
+|config|
 
-.. option:: :option:`CONFIG_AZURE_IOT_HUB_DEVICE_ID`
+Setup
+=====
 
-Sets the device ID to be used when connecting to Azure IoT Hub.
+For the sample to work as intended, you must setup and configure an Azure IoT Hub instance.
+See :ref:`configure_options_azure_iot` for information on the configuration options that can be used to create an Azure IoT Hub instance.
+Also, for a successful TLS connection to the Azure IoT Hub, the device needs to have certificates provisioned.
+See :ref:`connect_to_azure_iot_hub` for information on provisioning the certificates.
+
+Configuration options
+=====================
+
+
+Check and configure the following :ref:`lib_azure_iot_hub` configuration options for the sample:
+
+.. option:: CONFIG_AZURE_IOT_HUB_DEVICE_ID - Azure IoT Hub device ID
+
+This configuration option specifies the device ID to be used when connecting to the Azure IoT Hub.
 The device ID is also needed if DPS is used.
-An alternative to setting the device ID in Kconfig is to enable :option:`CONFIG_AZURE_IOT_HUB_DEVICE_ID_APP` and set the device ID at runtime in the configuration struct passed to :cpp:func:`azure_iot_hub_init`.
+Alternatively, you can enable the :option:`CONFIG_AZURE_IOT_HUB_DEVICE_ID_APP` option and set the device ID at run-time in the configuration struct passed to the :cpp:func:`azure_iot_hub_init` function.
 
+.. option:: CONFIG_AZURE_IOT_HUB_HOSTNAME - Azure IoT Hub host name
 
-.. option:: :option:`CONFIG_AZURE_IOT_HUB_HOSTNAME`
+This configuration option sets the Azure IoT Hub host name.
+If DPS is used, the sample assumes that the IoT hub host name is unknown, and the configuration is ignored.
 
-Sets the Azure IoT Hub hostname.
-If `Azure IoT Hub DPS`_ is used, it's assumed the IoT hub hostname is unknown, and the configuration will be ignored.
+.. option:: CONFIG_AZURE_IOT_HUB_DPS - Azure IoT Hub DPS
 
+This configuration option enables Azure IoT Hub DPS.
+When this option is enabled, the library connects to the DPS server to provision the device and receive IoT hub name and host name.
 
-.. option:: :option:`CONFIG_AZURE_IOT_HUB_DPS`
+.. option:: CONFIG_AZURE_IOT_HUB_DPS_ID_SCOPE - Azure IoT Hub DPS ID scope
 
-Enables `Azure IoT Hub DPS`_, and makes the library connect to the DPS server to provision the device and receive IoT hub name and hostname.
-
-
-.. option:: :option:`CONFIG_AZURE_IOT_HUB_DPS_ID_SCOPE`
-
-Sets the `Azure IoT Hub DPS`_ ID scope to use when provisioning the device.
+This configuration option sets the Azure IoT Hub DPS ID scope to use while provisioning the device.
 
 
 Building and running
@@ -87,25 +98,35 @@ Building and running
 Testing
 =======
 
-Microsoft have created `Azure IoT Explorer`_ to interact and test devices connected to an Azure IoT Hub.
-Optionally, follow the instructions at `Azure IoT Explorer`_ to install and configure the tool and use it where mentioned in the below instructions.
+Microsoft has created `Azure IoT Explorer`_ to interact and test devices connected to an Azure IoT Hub.
+Optionally, follow the instructions at `Azure IoT Explorer`_ to install and configure the tool and use it as mentioned in the below instructions.
 
-1. |connect_terminal|
-#. Reset the board.
-#. Observe the log output and verify that it's similar to the sample output below.
-#. Use the `Azure IoT Explorer`_, or log in to the `Azure Portal`_, select the connected IoT Hub and IoT device. Change (or add if it doesn't exist) the device twin's desired property ``telemetryInterval`` to a new value, for instance ``10`` and save the updated device twin.
+|test_sample|
+
+1. |connect_kit|
+#. |connect_terminal|
+#. Reset the development kit.
+#. Observe the log output and verify that it is similar to the :ref:`sampoutput_azure_iot`.
+#. Use the `Azure IoT Explorer`_, or log in to the `Azure Portal`_
+#. Select the connected IoT Hub and IoT device.
+#. Change the device twin's *desired* property ``telemetryInterval`` to a new value, for instance ``10`` and save the updated device twin. If it does not exist, you can add the *desired* property.
 #. Observe that the device receives the updated ``telemetryInterval`` value, applies it and starts sending new telemetry events every 10 seconds.
-   Verify that the ``reported`` object in the device twin now has a ``telemetryInterval`` property with the correct value reported back from the device.
-#. In the `Azure IoT Explorer`_ or device page in `Azure Portal`_, go to the ``Direct method` tab. Enter the method name ``led``. In the payload, enter the value ``1`` (or ``0``). Click `Invoke method`.
-#. Observe that LED 1 on the board lights up (or switches off if ``0`` was entered as the payload). In `Azure IoT Explorer`_, a notification should open up in the top right corner stating if the direct method was successfully invoked or not based on the report back from the device.
-#. If using the `Azure IoT Explorer`_, navigate to the ``Telemetry`` tab. Click ``start``.
-#. Observe event messages coming in from the device at the specified telemetry interval.
+#. Verify that the ``reported`` object in the device twin now has a ``telemetryInterval`` property with the correct value reported back from the device.
+#. In the `Azure IoT Explorer`_ or device page in `Azure Portal`_, navigate to the :guilabel:`Direct method` tab.
+#. Enter the method name ``led``. In the payload, enter the value ``1`` (or ``0``) and click :guilabel:`Invoke method`.
+#. Observe that LED 1 on the board lights up (or switches off if ``0`` was entered as the payload). If you are using `Azure IoT Explorer`_, a notification opens up in the top right corner stating if the direct method was successfully invoked or not based on the report back from the device.
+#. If using the `Azure IoT Explorer`_, navigate to the :guilabel:`Telemetry` tab AND click :guilabel:`start`.
+#. Observe that the event messages from the device are displayed in the terminal within the specified telemetry interval.
 
+Microsoft has created `Azure IoT Explorer`_ to interact and test devices connected to an Azure IoT Hub.
+Optionally, follow the instructions at `Azure IoT Explorer`_ to install and configure the tool and use it as mentioned in the above instructions.
+
+.. _sampoutput_azure_iot:
 
 Sample Output
 =============
 
-When the sample runs, the device boots, and the sample displays similar output to the following in the terminal over UART:
+When the sample runs, the device boots, and the sample displays an output identical to the following output in the terminal over UART:
 
 .. code-block:: console
 
@@ -140,9 +161,12 @@ Dependencies
 This sample uses the following |NCS| libraries and drivers:
 
 * :ref:`lib_azure_iot_hub`
-* ``lib/bsd_lib``
-* ``lib/lte_link_control``
+* :ref:`lte_lc_readme`
 
-In addition it uses the Secure Partition Manager sample:
+It uses the following `nrfxlib`_ libraries:
+
+* :ref:`nrfxlib:bsdlib`
+
+In addition, it uses the following |NCS| sample:
 
 * :ref:`secure_partition_manager`

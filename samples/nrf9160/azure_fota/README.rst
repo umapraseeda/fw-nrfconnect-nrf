@@ -1,49 +1,86 @@
 .. _azure_fota_sample:
 
 nRF9160: Azure FOTA
-#################
+###################
 
-The Azure Firmware Over The Air (Azure FOTA) sample shows how to perform an over-the-air firmware update of an nRF9160 device using the Azure IoT Hub and Azure FOTA libraries of the nRF Connect SDK.
-
-
-Overview
-*********
-
-The sample connects to the configured `Azure IoT Hub`_ and waits for incoming device twin updates containing firmware update information.
-By default, the device twin document is requested upon connecting to the IoT Hub, so any existing firmware information in the ``desired`` property will be parsed.
-See :ref:`lib_azure_fota` for more details on the content of the firmware information in the device twin.
-
-.. note::
-   A file server instance that hosts the new firmware image is required for this sample.
-   The Azure FOTA library does not require a specific host, but has been tested using `Azure Blob Storage`_ that shares the same root certificate as the Azure IoT Hub.
+The Azure firmware over-the-air (Azure FOTA) sample demonstrates how to perform an over-the-air firmware update of an nRF9160 device using the :ref:`lib_azure_fota` and :ref:`lib_azure_iot_hub` libraries of |NCS|.
 
 Requirements
 ************
 
-The sample supports the following development kit:
+The sample supports the following development kits:
 
 .. include:: /includes/boardname_tables/sample_boardnames.txt
    :start-after: set6_start
    :end-before: set6_end
 
-The sample requires an Azure IoT Hub, and optionally an Azure IoT Hub Device Provisioning Service instance if the device is not already registered with the IoT hub.
+The sample also requires an Azure IoT Hub, and an Azure IoT Hub Device Provisioning Service instance optionally, if the device is not already registered with the IoT hub.
+
+.. include:: /includes/spm.txt
+
+Overview
+********
+
+The sample connects to the configured `Azure IoT Hub`_ and waits for incoming `Azure IOT hub device twin messages`_ that contain the firmware update information.
+By default, the device twin document is requested upon connecting to the IoT Hub.
+Thus, any existing firmware information in the *desired* property will be parsed.
+See :ref:`lib_azure_fota` for more details on the content of the firmware information in the device twin.
+
+.. note::
+   This sample requires a file server instance that hosts the new firmware image.
+   The :ref:`lib_azure_fota` library does not require a specific host, but it has been tested using `Azure Blob Storage`_ that shares the same root certificate as the Azure IoT Hub.
 
 .. _certificates:
 
 Certificates for using TLS
 ==========================
 
-If TLS is used as the transport layer, certificates have to be provisioned to the device.
-Which certificates that need to be provisioned depends on where the FOTA image is hosted, and which TLS settings are configured at the endpoint where the file is downloaded from.
-If, for instance, `Azure Blob Storage` is used for hosting, the same root certificate (`Baltimore CyberTrust Root certificate`_) as for `Azure IoT Hub`_ connection can be used.
-See `connect_to_azure_iot_hub`_ for more details on how Azure IoT Hub certificates are provisioned.
+If TLS is used as the transport layer, the required certificates must be provisioned to the device.
+The certificates that need to be provisioned depends on the location of the hosted FOTA image, and the TLS settings that are configured at the endpoint from where the file is downloaded.
+If, for instance, Azure Blob Storage is used for hosting, the same root certificate (`Baltimore CyberTrust Root certificate`_) used in the `Azure IoT Hub`_ connection can be used.
+See :ref:`connect_to_azure_iot_hub` for more information.
 
-If another host than Azure is used, it's likely that it has other certificate requirements.
-Consult the host's documentation to find the right certificates.
-The certificates can be provisioned using the same procedure as for Azure ioT Hub certificates, described here: `azure_iot_hub_flash_certs`_
+If a host other than Azure is used, the certificate requirements might be different.
+See the documentation for the respective host to locate the correct certificates.
+The certificates can be provisioned using the same procedure as described in :ref:`azure_iot_hub_flash_certs`.
 
-.. include:: /includes/spm.txt
+Configuration
+*************
+|config|
 
+.. _configuring_azure_fota_sample:
+
+Configuration options
+=====================
+
+Check and configure the following configuration options for the sample:
+
+.. option:: CONFIG_AZURE_FOTA_APP_VERSION - Application version
+
+This configuration option is used to display the version string when the sample starts.
+You can use this information to verify that the FOTA update is successful.
+
+.. option:: CONFIG_AZURE_FOTA_TLS - Use HTTPS for downloads
+
+This configuration option is used to enable HTTPS for downloads.
+By default, TLS is enabled and currently, the transport protocol must be configured at compile-time.
+
+.. option:: CONFIG_AZURE_FOTA_SEC_TAG - Security tag for TLS credentials
+
+This configuration option sets the security tag for TLS credentials.
+If HTTPS is used as the transport layer, certificates must be provisioned to the device and the security tag option must be set accordingly.
+A security tag is a positive integer that serves as pointer to the location of the relevant certificates in the certificate storage the certificate storage of the device.
+See :ref:`certificates` for more details.
+
+.. option:: CONFIG_AZURE_IOT_HUB_HOSTNAME - Azure IoT Hub host name
+
+This configuration option sets the Azure IoT Hub hostname.
+By default, DPS is not used, and therefore the Azure IoT Hub hostname must be set using Kconfig.
+
+.. option:: CONFIG_AZURE_IOT_HUB_DEVICE_ID - Device ID
+
+This configuration option sets the device ID.
+The Azure IoT Hub device ID must be set unless :option:`CONFIG_AZURE_IOT_HUB_DEVICE_ID_APP` is enabled, and the ID is provided at runtime in the configuration struct.
 
 Building and running
 ********************
@@ -52,47 +89,17 @@ Building and running
 
 .. include:: /includes/build_and_run_nrf9160.txt
 
-.. _configuring:
-
-Sample configuration
-====================
-
-Before you build the sample, check and update the following configuration options:
-
-.. option:: AZURE_FOTA_APP_VERSION - Application version
-
-   The version string is printed when the sample starts.
-   Use this information to verify that the FOTA update worked.
-
-.. option:: AZURE_FOTA_TLS - Use HTTPS for downloads.
-
-   By default TLS is enabled for downloads.
-   Currently, the transport protocol must be configured at compile-time.
-
-.. option:: AZURE_FOTA_SEC_TAG - Security tag for TLS credentials
-
-   If HTTPS is used as the transport layer, certificates must be provisioned to the device and the sec tag option must be set accordingly.
-   A sec tag is a positive integer that serves as pointer to where in the device's certificate storage the relevant certificates are stored.
-   See `_certificates`_ for more details.
-
-.. option:: AZURE_IOT_HUB_HOSTNAME - Azure IoT Hub hostname.
-
-   By default DPS is not used, and the Azure IoT Hub hostname must therefore be set using Kconfig.
-
-.. option:: AZURE_IOT_HUB_DEVICE_ID - Device ID.
-
-   The Azure IoT Hub device ID must be set unless :option:`AZURE_IOT_HUB_DEVICE_ID_APP` is enabled and the ID is provided at runtime in the configuration struct.
 
 
 Testing
 =======
 
-After programming the sample to the board, test it by performing the following steps:
+After programming the sample to your development kit, test it by performing the following steps:
 
-1. |connect_terminal|
-#. Reset the board.
-#. Confirm that the sample prints the configured application version and connects to the Azure IoT Hub.
-   You should see output like the following::
+#. |connect_kit|
+#. |connect_terminal|
+#. Reset the development kit.
+#. Observe that the sample displays the configured application version in the terminal and connects to the Azure IoT Hub as shown below::
 
       *** Booting Zephyr OS build v2.3.0-rc1-ncs1-1453-gf41496cd30d5  ***
       Traces enabled
@@ -106,10 +113,10 @@ After programming the sample to the board, test it by performing the following s
       AZURE_IOT_HUB_EVT_READY
 
 
-#. Log on to the `Azure Portal`_, go to **IoT Hub** and select your IoT Hub.
-#. Navigate to **IoT devies** and select the device to update.
-#. In the device view, click the **Device Twin** button.
-#. Create a `firmware` JSON object inside the `desired` object of the device twin document, containing information about the binary to download:
+#. Log on to the `Azure Portal`_, navigate to :guilabel:`IoT Hub` and select your IoT Hub.
+#. Navigate to :guilabel:`IoT devices` and select the device to update.
+#. In the device view, click the :guilabel:`Device Twin` button.
+#. Create a `firmware` JSON object inside the *desired* object of the device twin document, containing information about the binary to download:
 
    .. parsed-literal::
       :class: highlight
@@ -125,11 +132,10 @@ After programming the sample to the board, test it by performing the following s
 	    }
 	}
 
-   See :ref:`lib_azure_fota` for more details.
-#. Apply the changes to the device twin by clicking **Save**.
-#. Updating the device twin will cause a message to be sent to the device, containing the updates to the `desired` object.
-#. In the terminal emulator, observe that the new firmware image is downloaded and installed.
-   You should see output similar to the following::
+   See the documentation on :ref:`lib_azure_fota` library for more details.
+#. Apply the changes to the device twin by clicking :guilabel:`Save`.
+#. Updating the device twin causes a message to be sent to the device, containing the updates to the *desired* object.
+#. In the terminal emulator, observe that the new firmware image is downloaded and installed as shown below::
 
       ...
       [00:00:20.089,416] <inf> download_client: Downloaded 19800/300860 bytes (6%)
@@ -146,27 +152,28 @@ After programming the sample to the board, test it by performing the following s
       [2020-08-28 00:38:18] AZURE_IOT_HUB_EVT_FOTA_DONE
       [2020-08-28 00:38:18] The device will reboot in 5 seconds to apply update
 
-#. When the board reboots, observe that the sample prints logs from the new application.
-#. In Azure Portal, confirm that the device twin now contains the updated application version in the `reported.firmware.fwVersion` field.
+#. When the development kit reboots, observe that the sample displays the logs from the new application.
+#. In Azure Portal, confirm that the device twin now contains the updated application version in the ``reported.firmware.fwVersion`` field.
 
 
 Dependencies
 ************
 
-This sample uses the following libraries:
+This sample uses the following |NCS| libraries:
 
-From |NCS|
-  * :ref:`lib_azure_fota`
-  * :ref:`lib_azure_iot_hub`
-  * ``drivers/lte_link_control``
+* :ref:`lib_azure_fota`
+* :ref:`lib_azure_iot_hub`
+* :ref:`lte_lc_readme`
 
-From nrfxlib
-  * :ref:`nrfxlib:bsdlib`
+It uses the following `nrfxlib`_ libraries:
 
-From Zephyr
-  * :ref:`MQTT <zephyr:networking_api>`
+* :ref:`nrfxlib:bsdlib`
 
-In addition it uses the following samples:
 
-From |NCS|
-  * :ref:`secure_partition_manager`
+It uses the following Zephyr libraries:
+
+* :ref:`MQTT <zephyr:networking_api>`
+
+In addition, it uses the following |NCS| sample:
+
+* :ref:`secure_partition_manager`
