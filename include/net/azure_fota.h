@@ -41,7 +41,7 @@ enum azure_fota_evt_type {
 struct azure_fota_event {
 	/** Event type, @ref enum azure_fota_evt_type. */
 	enum azure_fota_evt_type type;
-	/** Pointer to report associated with the event. A report is a JSON
+	/** Pointer to the report associated with the event. A report is a JSON
 	 *  string with information of the state of the FOTA process intended
 	 *  to be sent to Azure IoT Hub device twin's reported property.
 	 *  A valid report is provided if the pointer is not NULL.
@@ -75,7 +75,7 @@ int azure_fota_init(azure_fota_callback_t evt_handler);
  *  @param size Size of buffer.
  *
  *  @retval 0 If no FOTA information found.
- *	    1 If FOTA information was processed.
+ *  @retval 1 If FOTA information was processed.
  *	    If an error occurs, a negative value is returned.
  */
 int azure_fota_msg_process(const char *const buf, size_t size);
