@@ -21,8 +21,8 @@ The sample supports the following development kits:
 Overview
 ********
 
-The sample supports the direct connection of an already registered IoT device to an Azure IoT Hub.
-Alternatively, it also supports the provisioning of the device using `Azure IoT Hub Device Provisioning Service (DPS)`_ to an IoT Hub.
+The sample supports the direct connection of an IoT device that is already registered to an Azure IoT hub instance.
+Alternatively, it supports the provisioning of the device using `Azure IoT Hub Device Provisioning Service (DPS)`_ to an IoT hub.
 See the documentation on :ref:`lib_azure_iot_hub` library for more information.
 
 The sample periodically publishes telemetry messages (events) to the connected Azure IoT Hub.
@@ -45,47 +45,26 @@ If the device receives a direct method invocation with the name ``led`` and payl
 On Thingy:91, the LED turns red if the payload is ``1``.
 
 
-
-.. _configure_options_azure_iot:
-
-Configuration
-*************
-
-|config|
-
 Setup
 =====
 
-For the sample to work as intended, you must setup and configure an Azure IoT Hub instance.
-See :ref:`configure_options_azure_iot` for information on the configuration options that can be used to create an Azure IoT Hub instance.
-Also, for a successful TLS connection to the Azure IoT Hub, the device needs to have certificates provisioned.
-See :ref:`connect_to_azure_iot_hub` for information on provisioning the certificates.
+For the sample to work as intended, you must setup and configure an Azure IoT hub instance.
+See :ref:`configure_options_azure_iot` for information on the configuration options that can be used to create an Azure IoT hub instance.
+Also, for a successful TLS connection to the Azure IoT hub, the device needs to have certificates provisioned.
+See :ref:`prereq_connect_to_azure_iot_hub` for information on provisioning the certificates.
 
-Configuration options
-=====================
+.. _configure_options_azure_iot:
+
+Additional Configuration
+========================
 
 
-Check and configure the following :ref:`lib_azure_iot_hub` configuration options for the sample:
+Check and configure the following library options that are used by the sample:
 
-.. option:: CONFIG_AZURE_IOT_HUB_DEVICE_ID - Azure IoT Hub device ID
-
-This configuration option specifies the device ID to be used when connecting to the Azure IoT Hub.
-The device ID is also needed if DPS is used.
-Alternatively, you can enable the :option:`CONFIG_AZURE_IOT_HUB_DEVICE_ID_APP` option and set the device ID at run-time in the configuration struct passed to the :cpp:func:`azure_iot_hub_init` function.
-
-.. option:: CONFIG_AZURE_IOT_HUB_HOSTNAME - Azure IoT Hub host name
-
-This configuration option sets the Azure IoT Hub host name.
-If DPS is used, the sample assumes that the IoT hub host name is unknown, and the configuration is ignored.
-
-.. option:: CONFIG_AZURE_IOT_HUB_DPS - Azure IoT Hub DPS
-
-This configuration option enables Azure IoT Hub DPS.
-When this option is enabled, the library connects to the DPS server to provision the device and receive IoT hub name and host name.
-
-.. option:: CONFIG_AZURE_IOT_HUB_DPS_ID_SCOPE - Azure IoT Hub DPS ID scope
-
-This configuration option sets the Azure IoT Hub DPS ID scope to use while provisioning the device.
+* :option:`CONFIG_AZURE_IOT_HUB_DEVICE_ID` - Sets the Azure IoT Hub device ID. Alternatively, enable :option:`CONFIG_AZURE_IOT_HUB_DEVICE_ID_APP` option and set the device ID at run time in :cpp:type:`azure_iot_hub_config` passed to the :cpp:func:`azure_iot_hub_init` function.
+* :option:`CONFIG_AZURE_IOT_HUB_HOSTNAME` - Sets the Azure IoT Hub host name. If DPS is used, the sample assumes that the IoT hub host name is unknown, and the configuration is ignored.
+* :option:`CONFIG_AZURE_IOT_HUB_DPS` - Enables Azure IoT Hub DPS.
+* :option:`CONFIG_AZURE_IOT_HUB_DPS_ID_SCOPE` - Sets the Azure IoT Hub DPS ID scope.
 
 
 Building and running
@@ -98,7 +77,7 @@ Building and running
 Testing
 =======
 
-Microsoft has created `Azure IoT Explorer`_ to interact and test devices connected to an Azure IoT Hub.
+Microsoft has created `Azure IoT Explorer`_ to interact and test devices connected to an Azure IoT hub.
 Optionally, follow the instructions at `Azure IoT Explorer`_ to install and configure the tool and use it as mentioned in the below instructions.
 
 |test_sample|
@@ -107,19 +86,16 @@ Optionally, follow the instructions at `Azure IoT Explorer`_ to install and conf
 #. |connect_terminal|
 #. Reset the development kit.
 #. Observe the log output and verify that it is similar to the :ref:`sampoutput_azure_iot`.
-#. Use the `Azure IoT Explorer`_, or log in to the `Azure Portal`_
-#. Select the connected IoT Hub and IoT device.
-#. Change the device twin's *desired* property ``telemetryInterval`` to a new value, for instance ``10`` and save the updated device twin. If it does not exist, you can add the *desired* property.
-#. Observe that the device receives the updated ``telemetryInterval`` value, applies it and starts sending new telemetry events every 10 seconds.
+#. Use the `Azure IoT Explorer`_, or log in to the `Azure Portal`_.
+#. Select the connected IoT hub and IoT device.
+#. Change the device twin's *desired* property ``telemetryInterval`` to a new value, for instance ``10``, and save the updated device twin. If it does not exist, you can add the *desired* property.
+#. Observe that the device receives the updated ``telemetryInterval`` value, applies it, and starts sending new telemetry events every 10 seconds.
 #. Verify that the ``reported`` object in the device twin now has a ``telemetryInterval`` property with the correct value reported back from the device.
 #. In the `Azure IoT Explorer`_ or device page in `Azure Portal`_, navigate to the :guilabel:`Direct method` tab.
-#. Enter the method name ``led``. In the payload, enter the value ``1`` (or ``0``) and click :guilabel:`Invoke method`.
-#. Observe that LED 1 on the board lights up (or switches off if ``0`` was entered as the payload). If you are using `Azure IoT Explorer`_, a notification opens up in the top right corner stating if the direct method was successfully invoked or not based on the report back from the device.
-#. If using the `Azure IoT Explorer`_, navigate to the :guilabel:`Telemetry` tab AND click :guilabel:`start`.
+#. Enter ``led`` as the method name. In the ``payload`` field, enter the value ``1`` (or ``0``) and click :guilabel:`Invoke method`.
+#. Observe that LED 1 on the development kit lights up (or switches off if ``0`` is entered as the payload). If you are using `Azure IoT Explorer`_, you can observe a notification in the top right corner stating if the direct method was successfully invoked based on the report received from the device.
+#. If you are using the `Azure IoT Explorer`_, navigate to the :guilabel:`Telemetry` tab and click :guilabel:`start`.
 #. Observe that the event messages from the device are displayed in the terminal within the specified telemetry interval.
-
-Microsoft has created `Azure IoT Explorer`_ to interact and test devices connected to an Azure IoT Hub.
-Optionally, follow the instructions at `Azure IoT Explorer`_ to install and configure the tool and use it as mentioned in the above instructions.
 
 .. _sampoutput_azure_iot:
 

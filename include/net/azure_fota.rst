@@ -29,7 +29,7 @@ The library uses ``fwVersion`` to determine whether the firmware should be downl
 Currently, a new version of the firmware is downloaded and applied only if the version is different from the current firmware version.
 
 Currently, the library does not use the ``protocol`` field.
-Instead, the :option:`CONFIG_AZURE_FOTA_TLS` option is used at compile-time to specify if HTTPs should be used as the transport protocol.
+Instead, the :option:`CONFIG_AZURE_FOTA_TLS` option is used at compile time to specify if HTTPS should be used as the transport protocol.
 
 The ``fwFragmentSize`` field specifies the maximum fragment size for the file that should be downloaded in each HTTP request.
 Below are the maximum total fragment sizes in different scenarios:
@@ -39,7 +39,7 @@ Below are the maximum total fragment sizes in different scenarios:
 
 ``fwFragmentSize`` should therefore be set to a value lower than the maximum buffer size to reserve space for the HTTP header.
 
-It is up to the application that uses the library to restart the device when the FOTA completes and an :cpp:enumerator:`AZURE_FOTA_EVT_DONE` event is received.
+It is up to the application that uses the library to restart the device when the FOTA completes and an :cpp:enumerator:`AZURE_FOTA_EVT_DONE <azure_fota::AZURE_FOTA_EVT_DONE>` event is received.
 
 .. note::
    The current implementation is experimental and may be enhanced in future releases.
@@ -49,17 +49,19 @@ Configuration
 
 Configure the following parameters when using this library:
 
-* :option:`CONFIG_AZURE_FOTA_APP_VERSION` or :option:`CONFIG_AZURE_FOTA_APP_VERSION_AUTO` to set the application version
-* :option:`CONFIG_AZURE_FOTA_TLS`
-* :option:`CONFIG_AZURE_FOTA_HOSTNAME_MAX_LEN`
-* :option:`CONFIG_AZURE_FOTA_FILE_PATH_MAX_LEN`
+* :option:`CONFIG_AZURE_FOTA_APP_VERSION` - Defines the application version string. Indicates the current firmware version on the development kit.
+* :option:`CONFIG_AZURE_FOTA_APP_VERSION_AUTO` - Automatically generates the application version. If enabled, :option:`CONFIG_AZURE_FOTA_APP_VERSION` is ignored.
+* :option:`CONFIG_AZURE_FOTA_TLS` - Enables HTTPS for downloads. By default, TLS is enabled and currently, the transport protocol must be configured at compile time.
+* :option:`CONFIG_AZURE_FOTA_SEC_TAG` - Sets the security tag for TLS credentials when using HTTPS as the transport layer. See :ref:`azure_iot_hub_flash_certs` for more details.
+* :option:`CONFIG_AZURE_FOTA_HOSTNAME_MAX_LEN` - Sets the host name buffer size. 
+* :option:`CONFIG_AZURE_FOTA_FILE_PATH_MAX_LEN` - Sets the file path buffer size.
 
 
 Limitations
 ***********
 
-* The library requires a ``Content-Range`` header to be present in the HTTP response from the server.
-  This limitation is inherited from the :ref:`lib_download_client` library.
+The library requires a ``Content-Range`` header to be present in the HTTP response from the server.
+This limitation is inherited from the :ref:`lib_download_client` library.
 
 API documentation
 *****************
