@@ -137,7 +137,7 @@ After programming the sample to your development kit, test it by performing the 
 	            "host": "my-storage-account.blob.core.windows.net",
 	            "path": "my-app-update.bin"
 	        },
-	        "fwFragmentSize" : 1800
+	        "fwFragmentSize": 1800
 	    }
 	}
 

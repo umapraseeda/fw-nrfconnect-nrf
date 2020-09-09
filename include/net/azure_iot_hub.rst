@@ -32,7 +32,7 @@ For testing purposes, see `Creating Azure IoT Hub certificates`_ for the steps t
 
 .. _azure_iot_hub_flash_certs:
 
-Provisioning the certificates
+Provisioning of the certificates
 =============================
 
 To provision the certificates to the nRF9160 modem, complete the following steps:
@@ -94,11 +94,11 @@ Below is an example for setting the device ID at run-time instead of compile-tim
 	      .device_id_len = sizeof("my-device") - 1,
 	   };
 
-            err = azure_iot_hub_init(&cfg, event_handler);
-            if (err) {
-               printk("azure_iot_hub_init failed: %d\n", err);
-	       return err;
-            }
+          err = azure_iot_hub_init(&cfg, event_handler);
+          if (err) {
+             printk("azure_iot_hub_init failed: %d\n", err);
+	     return err;
+          }
 
 Connecting to Azure IoT Hub
 ***************************

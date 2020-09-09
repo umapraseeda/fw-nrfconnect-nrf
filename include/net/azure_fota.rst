@@ -21,7 +21,7 @@ The expected format of a ``firmware`` object is as shown below:
 			"host": "<hostname>",
 			"path": "<filename>.bin"
 		},
-		"fwFragmentSize" : 1800
+		"fwFragmentSize": 1800
 	}
    }
 
@@ -29,7 +29,7 @@ The library uses ``fwVersion`` to determine whether the firmware should be downl
 Currently, a new version of the firmware is downloaded and applied only if the version is different from the current firmware version.
 
 Currently, the library does not use the ``protocol`` field.
-Instead, the :option:`CONFIG_AZURE_FOTA_TLS` option is used at compile-time to specify the transport protocol to be used.
+Instead, the :option:`CONFIG_AZURE_FOTA_TLS` option is used at compile-time to specify if HTTPs should be used as the transport protocol.
 
 The ``fwFragmentSize`` field specifies the maximum fragment size for the file that should be downloaded in each HTTP request.
 Below are the maximum total fragment sizes in different scenarios:
@@ -37,7 +37,7 @@ Below are the maximum total fragment sizes in different scenarios:
 * With TLS: 2 KB including the HTTP header
 * Without TLS: 4 KB
 
-``fwFragmentSize`` should therefore be set lower than the maximum buffer size to keep space for the HTTP header also.
+``fwFragmentSize`` should therefore be set to a value lower than the maximum buffer size to reserve space for the HTTP header.
 
 It is up to the application that uses the library to restart the device when the FOTA completes and an :cpp:enumerator:`AZURE_FOTA_EVT_DONE` event is received.
 
