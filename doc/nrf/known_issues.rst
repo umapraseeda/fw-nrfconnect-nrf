@@ -336,6 +336,23 @@ KRKNWK-7836: Coordinator asserting when flooded with ZDO commands
 KRKNWK-6073: Potential delay during FOTA
   There might be a noticeable delay (~220 ms) between calling the ZBOSS API and on-the-air activity.
 
+Project Connected Home over IP (Project CHIP)
+=============================================
+
+.. rst-class:: v1-5-1 v1-5-0
+
+KRKNWK-9214: Pigweed submodule may not be accessible from some regions
+  The ``west update`` command may generate log notifications about the failure to access the pigweed submodule.
+  As a result the Project CHIP samples will not build.
+
+ **Workaround:** Execute the following commands in the root folder:
+
+ .. code-block::
+
+    git -C modules/lib/connectedhomeip submodule set-url third_party/pigweed/repo https://github.com/google/pigweed.git
+    git -C modules/lib/connectedhomeip submodule sync third_party/pigweed/repo
+    west update
+
 nRF Desktop
 ===========
 
