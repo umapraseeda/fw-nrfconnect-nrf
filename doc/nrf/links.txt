@@ -367,6 +367,10 @@
 
 .. _`HSM`: https://en.wikipedia.org/wiki/Hardware_security_module
 
+.. _`Transport Layer Security (TLS)`: https://en.wikipedia.org/wiki/Transport_Layer_Security
+
+.. _`Certificate authority`: https://en.wikipedia.org/wiki/Certificate_authority
+
 .. ### Source: doc.microsoft.com
 
 .. _`Azure Firmware Over The Air (FOTA)`: https://docs.microsoft.com/en-us/azure/iot-hub/tutorial-firmware-update
