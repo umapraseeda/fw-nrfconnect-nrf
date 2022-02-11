@@ -19,7 +19,8 @@ Use the drop-down filter to see known issues for previous releases and check if 
 
    <select name="versions" id="versions-select">
      <option value="all">All versions</option>
-     <option value="v1-8-0" selected>v1.8.0</option>
+     <option value="v1-9-0" selected>v1.9.0</option>
+     <option value="v1-8-0">v1.8.0</option>
      <option value="v1-7-1">v1.7.1</option>
      <option value="v1-7-0">v1.7.0</option>
      <option value="v1-6-1">v1.6.1</option>
@@ -1440,19 +1441,24 @@ KRKNWK-8842: MPSL does not support nRF21540 revision 1 or older
 802.15.4 Radio driver
 =====================
 
+.. rst-class:: v1-9-0
+
+KRKNWK-12482: Reception of correct frames can occassionally end in failure with error `NRF_802154_RX_ERROR_RUNTIME`.
+  This issue can occur for nrf5340dk_nrf5340_cpunet target if custom application (other than multiprotocol_rpmsg or 802154_rpmsg) is used.
+
 .. rst-class:: v1-7-1 v1-7-0
 
 KRKNWK-11384: Assertion with Bluetooth® LE and multiprotocol usage
   The device might assert on rare occasions during the use of Bluetooth® LE and 802.15.4 multiprotocol.
 
-.. rst-class:: v1-8-0 v1-7-1 v1-7-0
+.. rst-class:: v1-9-0 v1-8-0 v1-7-1 v1-7-0
 
 KRKNWK-11204:
   Transmitting the 802.15.4 frame with improperly populated Auxiliary Security Header field might result in assert.
 
   **Workaround:** Make sure that you populate the Auxiliary Security Header field according to the IEEE Std 802.15.4-2015 specification, section 9.4.
 
-.. rst-class:: v1-8-0 v1-7-1 v1-7-0 v1-6-1 v1-6-0 v1-5-2 v1-5-1 v1-5-0
+.. rst-class:: v1-9-0 v1-8-0 v1-7-1 v1-7-0 v1-6-1 v1-6-0 v1-5-2 v1-5-1 v1-5-0
 
 KRKNWK-8133: CSMA-CA issues
   Using CSMA-CA with the open-source variant of the 802.15.4 Service Layer (SL) library causes an assertion fault.
