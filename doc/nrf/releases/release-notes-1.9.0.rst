@@ -788,7 +788,26 @@ The mcumgr library contains all commits from the upstream mcumgr repository up t
 
 The following list summarizes the most important changes inherited from upstream mcumgr:
 
-* |no_changes_yet_note|
+* Updated:
+
+  * Mcumgr has been merged into Zephyr source tree under :file:`ncs/zephyr/subsys/mgmt/mcugr/lib`,
+    and is no longer visible as module in west.yml.
+
+  * :kconfig:`CONFIG_OS_MGMT_TASKSTAT` is now disabled by default.
+
+* Added:
+
+  * :kconfig:`CONFIG_IMG_MGMT_FRUGAL_LIST` that enables reduced mcumgr image list output, where the device will no longer send fields that are 0 or false.
+
+  * :kconfig:`CONFIG_MCUMGR_SMP_BT_CONN_PARAM_CONTROL` that enables requesting connection parameters for SMP over Bluetooth;
+    the option enables following Kconfig options:
+
+      *  :kconfig:`CONFIG_MCUMGR_SMP_BT_CONN_PARAM_CONTROL_MIN_INT` that allows to select minimal connection interval for SMP packet exchange;
+      *  :kconfig:`CONFIG_MCUMGR_SMP_BT_CONN_PARAM_CONTROL_MAX_INT` that allows to select maximal connection interval for SMP packet exchange;
+      *  :kconfig:`CONFIG_MCUMGR_SMP_BT_CONN_PARAM_CONTROL_LATENCY` that allows to set latency for SMP packet exchange;
+      *  :kconfig:`CONFIG_MCUMGR_SMP_BT_CONN_PARAM_CONTROL_TIMEOUT` that allows to set supervision timeout for SMP packet exchange;
+      *  :kconfig:`CONFIG_MCUMGR_SMP_BT_CONN_PARAM_CONTROL_RESTORE_TIME` that allows to set inactivity timeout after which connection parameters will be restored to preferred values;
+      *  :kconfig:`CONFIG_MCUMGR_SMP_BT_CONN_PARAM_CONTROL_RETRY_TIME` that allows to set retry time for setting connection parameters;
 
 Zephyr
 ======
