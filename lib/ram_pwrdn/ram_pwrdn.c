@@ -208,7 +208,7 @@ static void libc_heap_resize_cb(void *old_heap_end, void *new_heap_end)
 	}
 }
 
-static HEAP_LISTENER_DEFINE(heap_listener, HEAP_ID_LIBC, libc_heap_resize_cb);
+static HEAP_LISTENER_RESIZE_DEFINE(heap_listener, HEAP_ID_LIBC, libc_heap_resize_cb);
 
 static int ram_power_init(const struct device *unused)
 {
