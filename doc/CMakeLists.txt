@@ -138,6 +138,22 @@ function(add_docset name)
     USES_TERMINAL
   )
 
+  add_custom_target(
+    ${name}-spelling
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${DOCSET_MAKE_DIRS}
+    COMMAND ${CMAKE_COMMAND} -E env ${DOCSET_ENV}
+    ${SPHINXBUILD}
+      -b spelling
+      -c ${DOCSET_CFG_DIR}
+      -d ${DOCSET_DOCTREE_DIR}
+      -w ${DOCSET_BUILD_DIR}/spellingcheck.log
+      ${SPHINXOPTS_DEFAULT}
+      ${EXTRA_ARGS}
+	  ${DOCSET_SRC_DIR}
+	  ${DOCSET_BUILD_DIR}
+    USES_TERMINAL
+  )
+
   set_target_properties(
     ${name}-inventory ${name}-inventory-all
     ${name}-html ${name}-html-all

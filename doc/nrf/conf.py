@@ -40,6 +40,7 @@ extensions = [
     "zephyr.external_content",
     "zephyr.doxyrunner",
     "sphinx_tabs.tabs",
+    "sphinxcontrib.spelling",
 ]
 
 linkcheck_ignore = [
@@ -66,6 +67,13 @@ rst_epilog = """
 .. include:: /shortcuts.txt
 .. include:: /versions.txt
 """
+
+# Options for spelling check ---------------------------------------------------
+
+spelling_show_suggestions=True
+spelling_ignore_pypi_package_names=True
+spelling_word_list_filename='spelling_wordlist.txt'
+
 
 # Options for HTML output ------------------------------------------------------
 
