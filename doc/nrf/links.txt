@@ -11,6 +11,8 @@
 .. _`Zephyr Initial Configuration`: https://docs.zephyrproject.org/latest/guides/build/kconfig/setting.html#the-initial-configuration
 .. _`Zephyr Network APIs`: https://docs.zephyrproject.org/latest/reference/networking/apis.html
 .. _`Zephyr Events`: https://docs.zephyrproject.org/latest/reference/kernel/synchronization/events.html
+.. _`Nordic nrf-pinctrl node properties`: https://docs.zephyrproject.org/latest/build/dts/api/bindings/pinctrl/nordic%2Cnrf-pinctrl.html#properties
+.. _`Device driver state models`: https://docs.zephyrproject.org/latest/hardware/pinctrl/index.html#state-model
 
 .. ### Source: github.com
 
