@@ -1,7 +1,7 @@
 .. _asset_tracker_v2_internal_modules:
 
 Firmware architecture
-*********************
+#####################
 
 The Asset Tracker v2 application has a modular structure, where each module has a defined scope of responsibility.
 The application makes use of the :ref:`app_event_manager` to distribute events between modules in the system.
@@ -13,12 +13,12 @@ The following figure shows the relationship between the modules and the Applicat
 It also shows the modules with thread and the modules without thread.
 
 .. figure:: /images/asset_tracker_v2_module_hierarchy.svg
-    :alt: Module hierarchy
+    :alt: Relationship between modules and the Application Event Manager
 
     Relationship between modules and the Application Event Manager
 
 Internal modules
-================
+****************
 
 The application comprises of the following modules:
 
@@ -32,8 +32,7 @@ The application comprises of the following modules:
 * :ref:`asset_tracker_v2_debug_module`
 * :ref:`asset_tracker_v2_modem_module`
 
-Each module documentation contains information about its API, dependencies, states, and
-state transitions.
+Each module documentation contains information about its API, dependencies, states, and state transitions.
 
 The application has two types of modules:
 
@@ -46,7 +45,7 @@ When an event is sent from a module, all subscribers receive that event in the r
 1. The event is converted into a message
 #. The event is either processed directly or queued.
 
-Modules may also receive events from other sources such as drivers and libraries.
+Modules can also receive events from other sources such as drivers and libraries.
 For instance, the cloud module will also receive events from the configured cloud backend.
 The event handler converts the events to messages.
 The messages are then queued in the case of the cloud module or processed directly in the case of modules that do not have a processing thread.
@@ -59,7 +58,7 @@ The messages are then queued in the case of the cloud module or processed direct
 For more information about each module and its configuration, see the :ref:`Subpages <asset_tracker_v2_subpages>`.
 
 Thread usage
-============
+************
 
 In addition to system threads, some modules have dedicated threads to process messages.
 Some modules receive messages that may potentially take an extended amount of time to process.
@@ -121,7 +120,7 @@ Following is the basic structure for all the threads:
 .. _memory_allocation:
 
 Memory allocation
-=================
+*****************
 
 Mostly, the modules use statically allocated memory.
 Following are some features that rely on dynamically allocated memory, using the :ref:`Zephyr heap memory pool implementation <zephyr:heap_v2>`:

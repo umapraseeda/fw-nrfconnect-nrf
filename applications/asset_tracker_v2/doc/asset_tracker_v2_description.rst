@@ -15,11 +15,23 @@ The Asset Tracker v2 application is built on the following principles:
 * Batching of data - Data is batched to reduce the number of messages transmitted, and to be able to retain collected data while the device is offline.
 * Configurable at run time - The application behavior (for example, accelerometer sensitivity or GNSS timeout) can be configured at run time. This improves the development experience with individual devices or when debugging the device behavior in specific areas and situations. It also reduces the cost for transmitting data to the devices by reducing the frequency of sending firmware updates to the devices.
 
+Requirements
+************
+
+.. table-from-sample-yaml::
+
+.. include:: /includes/tfm_spm_thingy91.txt
+
 Overview
 ********
 
 The application samples and sends sensor data to a connected cloud service over `IP`_ using `LTE`_.
-The cloud services that are supported by the application are as follows:
+Following are the cloud services that are supported by the application:
+
+* `AWS IoT Core`_
+* `Azure IoT Hub`_
+* `nRF Cloud`_
+* `LwM2M`_ v1.1 compliant service (E.g `Coiote Device Management`_, `Leshan LwM2M server <Leshan homepage_>`_).
 
 +---------------------------------------------------------------------------------------------------------------+
 | Cloud service                                                                                                 |
@@ -33,7 +45,7 @@ The cloud services that are supported by the application are as follows:
 | `LwM2M`_ v1.1 compliant service (E.g `Coiote Device Management`_, `Leshan LwM2M server <Leshan homepage_>`_)  |
 +---------------------------------------------------------------------------------------------------------------+
 
-To run the application on a development kit and connect to a cloud service you must complete the following steps:
+To run the application on a development kit and connect to a cloud service, you must complete the following steps:
 
 1. :ref:`Setting up the cloud service <cloud_setup>`
 #. :ref:`Configuring the application <atv2_application_configuration>`
@@ -42,28 +54,21 @@ To run the application on a development kit and connect to a cloud service you m
 .. note::
    For more information on the protocols and technologies that are used in the connection towards a specific cloud service, see :ref:`Supported cloud services <supported_cloud_services>`.
 
-Requirements
-************
-
-.. table-from-sample-yaml::
-
-.. include:: /includes/tfm_spm_thingy91.txt
-
 .. _cloud_setup:
 
 Cloud setup
 ***********
 
-To set up a cloud service to work with the application firmware, complete the steps listed in the following documentations:
+To set up a cloud service to work with the application firmware, complete the steps:
 
 .. important::
-   The application defaults the *client ID* used in the connection to the *IMEI* of the device.
+   The application defaults to the *client ID* used in the connection to the *IMEI* of the device.
    This value is printed on the development kit.
 
 * nRF Cloud - :ref:`Connecting your device to nRF Cloud <nrf9160_gs_connecting_dk_to_cloud>`.
   The default configuration of the firmware is to communicate with `nRF Cloud`_ using the factory-provisioned certificates on the Thingy:91 and nRF9160 DK.
-  This means that no additional configuration of the firwmare is needed to be able to connect to nRF Cloud.
-  Its recommended to build and run the firmware on the device before completing the steps listed in :ref:`Connecting your device to nRF Cloud <nrf9160_gs_connecting_dk_to_cloud>`.
+  This means that no additional configuration of the firmware is needed to be able to connect to nRF Cloud.
+  It is recommended to build and run the firmware on the device before completing the steps listed in :ref:`Connecting your device to nRF Cloud <nrf9160_gs_connecting_dk_to_cloud>`.
   See :ref:`Building and running <building_and_running>`.
 
 * AWS IoT Core - :ref:`lib_aws_iot`.
@@ -76,7 +81,7 @@ To set up a cloud service to work with the application firmware, complete the st
 * AVSystem LwM2M Coiote Device Management - :ref:`server_setup_lwm2m`.
   No additional configuration is needed if the server is setup according to the linked documentation.
 
-nRF Asset Tracker Project
+nRF Asset Tracker project
 =========================
 
 The application firmware is a part of the `nRF Asset Tracker project`_, which is and open source end-to-end example that includes cloud backend and frontend code for the following cloud providers:
@@ -84,22 +89,28 @@ The application firmware is a part of the `nRF Asset Tracker project`_, which is
 * AWS IoT Core - `Getting started guide for nRF Asset Tracker for AWS`_.
 * Azure IoT Hub - `Getting started guide for nRF Asset Tracker for Azure`_.
 
-The `nRF Asset Tracker project`_ contains separate documentation that goes through setup of the firmware and cloud-side.
-If you want use the `nRF Asset Tracker project`_, the documentation for the Asset Tracker v2 in |NCS| can be ignored.
+The `nRF Asset Tracker project`_ contains separate documentation that goes through setup of the firmware and cloud-side setup.
+If you want to use the nRF Asset Tracker, follow the `nRF Asset Tracker project`_ documentation instead of the Asset Tracker v2 documentation.
+
+Carrier library support
+***********************
+
+See the section :ref:`using_the_lwm2m_carrier_library` for steps on how to connect to a operator's device management platform, nessecary in some LTE networks.
 
 .. _atv2_application_configuration:
 
 Configuration
 *************
 
-To configure the firmware to connect to a specific cloud service the following steps must be followed:
+To configure the firmware to connect to a specific cloud service, complete the following steps:
 
 1. Update the overlay configuration file that corresponds to the selected cloud service with the Kconfig option values that was extracted during the :ref:`Setting up the cloud service <cloud_setup>` step.
-   The name of the overlay file should reflect the cloud service that has been chosen. So for AWS IoT the file name is is :file:`overlay-aws.conf`, and so on.
+   The name of the overlay file must reflect the cloud service that has been chosen.
+   So for AWS IoT, the file name is :file:`overlay-aws.conf`, and so on.
    :ref:`Cloud-specific mandatory Kconfig options <mandatory_config>` lists the mandatory options that are specific to each cloud service.
    The overlay files are located in the root folder of the application, under :file:`applications/asset_tracker_v2/`.
 
-#. Include the overlay file when building the firmware, documented in :ref:`Building and running <building_and_running>`.
+#. Include the overlay file when building the firmware, as documented in :ref:`Building and running <building_and_running>`.
 
 Configuration files
 ===================
@@ -118,7 +129,7 @@ Overlay configurations files that enable specific features:
 
 * :file:`overlay-aws.conf` - Configuration file that enables communication with AWS IoT Core.
 * :file:`overlay-azure.conf` - Configuration file that enables communication with Azure IoT Hub.
-* :file:`overlay-lwm2m.conf` - Configuration file that enables communication with AVSystem Coiote IoT Device Management.
+* :file:`overlay-lwm2m.conf` - Configuration file that enables communication with AVSystem's Coiote IoT Device Management.
 * :file:`overlay-pgps.conf` - Configuration file that enables P-GPS.
 * :file:`overlay-low-power.conf` - Configuration file that achieves the lowest power consumption by disabling features that consume extra power, such as LED control and logging.
 * :file:`overlay-debug.conf` - Configuration file that adds additional verbose logging capabilities and enables the debug module.
@@ -199,12 +210,7 @@ After programming the application and all the prerequisites to your development 
 
 .. _atv2_lwm2m_carrier_support:
 
-Useful links
-************
 
-* :ref:`app_behavior_and_functionality` - General overview of the functionality of the application.
-* :ref:`asset_tracker_v2_internal_modules` - General overview of the firmware architecture.
-* :ref:`using_the_lwm2m_carrier_library` - Steps on how to connect to a operator's device management platform, nessecary in some LTE networks.
 
 Dependencies
 ************

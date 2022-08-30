@@ -1,10 +1,12 @@
 .. _app_behavior_and_functionality:
 
 Application behavior and functionality
-**************************************
+######################################
+
+This section describes the general functioning of the Asset Tracker v2 application.
 
 Data types
-==========
+**********
 
 Data from multiple sensor sources are collected to construct information about the location, environment, and the health of the nRF9160-based device.
 The data types that are collected by the application are listed in the following table:
@@ -24,15 +26,15 @@ The data types that are collected by the application are listed in the following
 +----------------+----------------------------+-----------------------------------------------+--------------------------------+
 | Battery        | Voltage                    | APP_DATA_BATTERY                              | NA                             |
 +----------------+----------------------------+-----------------------------------------------+--------------------------------+
-| Neighbor cells | Neighbor cell measurements | APP_DATA_NEIGHBOR_CELLS                       | ``ncell``                      |
+| Neighbor cells | Neighbor cell measurements | APP_DATA_NEIGHBOR_CELLS                       |``ncell``                       |
 +----------------+----------------------------+-----------------------------------------------+--------------------------------+
 
 .. _real_time_configs:
 
 Real-time configurations
-========================
+************************
 
-You can alter the behavior of the application at run-time by updating the application's real-time configurations through the cloud service.
+You can alter the behavior of the application at run time by updating the application's real-time configurations through the cloud service.
 The real-time configurations supported by the application are listed in the following table:
 
 +--------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+----------------+
@@ -62,22 +64,23 @@ The real-time configurations supported by the application are listed in the foll
 +--------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+----------------+
 
 You can alter the **default** values of the real-time configurations at compile time by setting the options listed in :ref:`Default device configuration options <default_config_values>`.
-However, take note that these are only the default values. If a different value set has been set through the cloud service, it will take precedence.
+However, note that these are only the default values.
+If a different value set has been set through the cloud service, it takes precedence.
 The application also stores its configuration values to non-volatile memory.
 
-.. note::
-   The application receives new configurations in one of three ways:
 
-   * Upon every established connection to the cloud service.
-   * When the device sends an update to cloud.
-   * From non-volatile flash memory after boot.
+The application receives new configurations in one of the following three ways:
+
+* Upon every established connection to the cloud service.
+* When the device sends an update to cloud.
+* From non-volatile flash memory after boot.
 
 The following flow charts show the operation of the application in the active and passive mode.
 The charts show the relationship between data sampling, sending of data, and the real-time configurations.
 All configurations that are not essential to this relationship are not included.
 
 .. figure:: /images/asset_tracker_v2_active_state.svg
-    :alt: Active state flow chart
+    :alt: Active mode flow chart
 
     Active mode flow chart
 
@@ -96,14 +99,13 @@ In the passive mode, the application samples and sends data upon two occurrences
   Essentially, it makes sure that the application always sends data at some rate, regardless of movement.
 
 User interface
-==============
+**************
 
 The application supports basic UI elements to visualize its operating state and to notify the cloud using button presses.
-This functionality is implemented in the :ref:`UI module <asset_tracker_v2_ui_module>` and the supported
-LED patterns are documented in the :ref:`UI module LED indication <led_indication>` section.
+This functionality is implemented in the :ref:`UI module <asset_tracker_v2_ui_module>` and the supported LED patterns are documented in the :ref:`UI module LED indication <led_indication>` section.
 
 A-GPS and P-GPS
-===============
+***************
 
 The application supports processing of incoming A-GPS and P-GPS data to reduce the GNSS Time-To-First-Fix (`TTFF`_).
 Requesting and processing of A-GPS data is a default feature of the application.

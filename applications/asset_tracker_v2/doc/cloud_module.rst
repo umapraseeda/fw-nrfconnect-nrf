@@ -185,7 +185,7 @@ To enable communication with Azure IoT Hub, set the following options in the :fi
 * :kconfig:option:`CONFIG_AZURE_IOT_HUB_SEC_TAG`
 * :kconfig:option:`CONFIG_AZURE_FOTA_SEC_TAG`
 
-If not using DPS (Device Provisioning Service), ensure that the hostname option is correctly set:
+If not using the default DPS (Device Provisioning Service) host, ensure that the hostname option is correctly set:
 
 * :kconfig:option:`CONFIG_AZURE_IOT_HUB_DPS_HOSTNAME`
 

@@ -1,7 +1,7 @@
 .. _using_the_lwm2m_carrier_library:
 
-Using the LwM2M carrier library
-*******************************
+Using the carrier library
+#########################
 
 The application supports the |NCS| :ref:`liblwm2m_carrier_readme` library that you can use to connect to the operator's device management platform.
 See the library's documentation for more information and configuration options.
