@@ -187,8 +187,7 @@ Setup
 Before building and running the sample, complete the following steps:
 
 1. Select the device you plan to test.
-#. Select the LwM2M server for testing and register the device on it.
-   You can also optionally enable notifications for the resources so that the server actively monitors the resources.
+#. Select the LwM2M server for testing.
 #. Setup the LwM2M server by completing the steps listed in :ref:`server_setup_lwm2m`.
    This step retrieves the server address and the security tag that will be needed during the next steps.
 #. :ref:`server_addr_PSK`.
@@ -285,6 +284,7 @@ The following instructions describe how to register your device to `Leshan Demo 
 
          #. Click :guilabel:`Add device`.
 
+
 .. note::
 
    The **Client Configuration** page of the LwM2M Bootstrap server and the **Registered Clients** page of the LwM2M server display only a limited number of devices by default.
@@ -301,7 +301,7 @@ Set the server address and PSK
 
    * For `Leshan Demo Server`_ - ``coaps://leshan.eclipseprojects.io:5684`` (`public Leshan Demo Server`_).
    * For `Coiote Device Management`_ - ``coaps://eu.iot.avsystem.cloud:5684`` (`Coiote Device Management server`_).
-   * For `Leshan Bootstrap Server Demo web UI <public Leshan Bootstrap Server Demo_>`_ - ``coaps://leshan.eclipseprojects.io:5784``
+   * For `Leshan Bootstrap Demo Server <public Leshan Bootstrap Server Demo_>`_ - ``coaps://leshan.eclipseprojects.io:5784``
    * For Coiote bootstrap server - ``coaps://eu.iot.avsystem.cloud:5694``
 #. Set :kconfig:option:`CONFIG_LWM2M_RD_CLIENT_SUPPORT_BOOTSTRAP` if bootstrap is used.
 #. Set :ref:`CONFIG_APP_LWM2M_PSK <CONFIG_APP_LWM2M_PSK>` to the hexadecimal representation of the PSK used when registering the device with the server.
@@ -346,7 +346,6 @@ Following are the instructions for enabling notifications in the Leshan Demo ser
          * Selecting :guilabel:`Monitoring` will additionally create a graph of the logged datapoints.
 
       #. Click :guilabel:`Limit data usage` to configure how often notifications are sent.
-
 
 Configuration options
 =====================
@@ -446,7 +445,7 @@ Additional configuration
 
 Check and configure the following LwM2M options that are used by the sample:
 
-* :kconfig:option:`CONFIG_LWM2M_PEER_PORT` - LwM2M server port
+* :kconfig:option:`CONFIG_LWM2M_PEER_PORT` - LwM2M server port.
 * :kconfig:option:`CONFIG_LWM2M_ENGINE_MAX_OBSERVER` - Maximum number of resources that can be tracked.
   You must increase this value if you want to observe more than 10 resources.
 * :kconfig:option:`CONFIG_LWM2M_ENGINE_MAX_MESSAGES` - Maximum number of LwM2M message objects.
@@ -466,6 +465,7 @@ Check and configure the following LwM2M options that are used by the sample:
 .. note::
    Changing lifetime might not work correctly if you set it to a value beyond 60 seconds.
    It might cause resending message error and eventually timeout.
+   This is an issue specific for IPV4 when NAT is in use.
 
 For Thingy:91, configure the ADXL362 accelerometer sensor range by choosing one of the following options (default value is |plusminus| 2 g):
 
@@ -491,6 +491,15 @@ The following files are available:
 * :file:`overlay-leshan-bootstrap.conf` - Enables LwM2M bootstrap support with Leshan demo server.
 * :file:`overlay-avsystem.conf` - Uses `Coiote Device Management`_ server.
 * :file:`overlay-avsystem-bootstrap.conf` - Uses Coiote in bootstrap mode.
+* :file:`overlay-nbiot.conf` - Enables the use of NB-IoT.
+* :file:`overlay-assist-agps.conf` - Enables A-GPS assistance.
+* :file:`overlay-assist-cell.conf` - Enables cell-based location assistance.
+
+Moreover, the sample also provides the following files for LwM2M 1.1 features:
+
+* :file:`overlay-lwm2m-1.1.conf`
+* :file:`overlay-lwm2m-1.1-core-interop.conf`
+* :file:`overlay-lwm2m-1.1-object-interop.conf`
 
 You can configure the sample either by editing the :file:`prj.conf` file and the relevant overlay files, or through menuconfig or guiconfig.
 
@@ -507,6 +516,8 @@ After building and running the sample, you can locate your device in the server:
 
 * Leshan - Devices are listed under **Clients**.
 * Coiote - Devices are listed under **Device inventory**.
+
+You can also optionally enable notifications for the resources so that the server actively monitors the resources.
 
 Queue Mode support
 ==================
