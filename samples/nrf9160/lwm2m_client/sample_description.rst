@@ -461,6 +461,7 @@ Check and configure the following LwM2M options that are used by the sample:
   See the `LwM2M Object and Resource Registry`_ for a list of objects and their available versions.
 * :kconfig:option:`CONFIG_LWM2M_IPSO_TEMP_SENSOR_VERSION_1_1` - Sets the IPSO Temperature sensor object version to 1.1.
   You can use this configuration option for other IPSO objects also by modifying the option accordingly. See the `LwM2M Object and Resource Registry`_ for a list of objects and their available versions.
+* :kconfig:option:`CONFIG_LWM2M_SHELL` - Enables the Zephyr shell and all LwM2M specific commands
 
 .. note::
    Changing lifetime might not work correctly if you set it to a value beyond 60 seconds.
@@ -565,6 +566,36 @@ Testing
 
    #. Try to enable or disable some sensors in menuconfig and check if the sensors
       appear or disappear correspondingly in the LwM2M server.
+
+Testing with the LwM2M shell
+============================
+
+To test with the sample, complete the following steps:
+
+1. To enable any LwM2M v1.specific commands - like LwM2M SEND - remember to pick any of the v1.1
+   overlay files.
+#. Open a terminal emulator and observe that the development kit produces an output similar to the
+   above section.
+#. Verify that the shell inputs are working correctly by running few commands. Example commands can
+   be to trigger a registration update, stopping and starting the client.
+
+      1. Do registration update
+
+         .. code-block:: console
+
+            & uart:~$ lwm2m update
+
+      #. Pause the client
+
+         .. code-block:: console
+
+            & uart:~$ lwm2m pause
+
+      #. Resume the client
+
+         .. code-block:: console
+
+            & uart:~$ lwm2m resume
 
 Firmware Over-the-Air (FOTA)
 ============================
