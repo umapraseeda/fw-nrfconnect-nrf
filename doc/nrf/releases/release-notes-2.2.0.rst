@@ -491,6 +491,11 @@ Thread samples
 Matter samples
 --------------
 
+.. note::
+   All Matter samples in the |NCS| v2.2.0 that offer Wi-Fi support have been tested using the nRF7002 DK (PCA10143) rev. A and are built with rev.A support by default.
+   You can configure Matter samples to use rev. B by setting the :kconfig:option:`CONFIG_NRF700X_REV_A` Kconfig option to ``n``.
+   Make sure that you build the samples for the revision of the nRF7002 DK that you are using.
+
 * Updated ZAP configuration of the samples to conform with device types defined in Matter 1.0 specification.
 
 * :ref:`matter_light_bulb_sample` sample:
