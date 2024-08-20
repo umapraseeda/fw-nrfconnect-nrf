@@ -421,7 +421,7 @@ TCP receive data
    <data>
 
 * The ``<size>`` parameter is an integer that indicates the size of the received data.
-  This notification comes only when SLM is not operating in :ref:`data mode <slm_data_mode>`.
+  This notification comes only when SLM is not operating in data mode.
 * The ``<data>`` value is raw data that is being received.
 
 UDP server #XUDPSVR

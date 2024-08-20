@@ -219,7 +219,7 @@ The following Kconfig options are available:
 +------------------------------------------+----------------------------------------+
 
 To generate the Google Fast Pair provisioning data, you must set this Kconfig option at the sysbuild level.
-The method of supplying the Fast Pair Model ID and Anti-Spoofing Private Key via the command line arguments remains unchanged from previous |NCS| versions.
+The method of supplying the Fast Pair Model ID and Anti-Spoofing Private Key using the command line arguments remains unchanged from previous |NCS| versions.
 
 .. note::
     When building with sysbuild, the value of the :kconfig:option:`CONFIG_BT_FAST_PAIR` Kconfig option is overwritten by ``SB_CONFIG_BT_FAST_PAIR``.
@@ -718,8 +718,8 @@ As sysbuild deals with configuration of features for some features and propagati
 
 .. _child_parent_to_sysbuild_migration_incompatibilities:
 
-Incompatibities
-===============
+Incompatibilities
+=================
 
 In the sysbuild release included in the |NCS| 2.7, the following features of the multi-image builds using child and parent images are not supported:
 

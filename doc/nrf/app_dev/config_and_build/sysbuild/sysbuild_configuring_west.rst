@@ -3,7 +3,7 @@
 Configuring sysbuild usage in west
 ##################################
 
-The |NCS| has :ref:`sysbuild enabled by default <sysbuild_enabled_ncs>` for for :ref:`repository applications <create_application_types_repository>` in the :ref:`SDK repositories <dm_repo_types>`.
+The |NCS| has :ref:`sysbuild enabled by default <sysbuild_enabled_ncs>` for :ref:`repository applications <create_application_types_repository>` in the :ref:`SDK repositories <dm_repo_types>`.
 
 If you work with out-of-tree applications, such as :ref:`workspace <create_application_types_workspace>` or :ref:`freestanding applications <create_application_types_freestanding>`, you can configure your project to use sysbuild by default whenever invoking ``west build``.
 You can do this either per-workspace, using the local configuration option, or for all your workspaces, using the global configuration option:

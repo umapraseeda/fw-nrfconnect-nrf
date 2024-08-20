@@ -81,7 +81,7 @@ Server
 Client
    An element accessing a state is referred to as a client.
    In other words, a client reads and writes the server's states.
-   For example, the simplest client is a Generic OnOff Client (a binary switch) that is able to control a Generic OnOff Server via messages accepted by the Generic OnOff Server model.
+   For example, the simplest client is a Generic OnOff Client (a binary switch) that is able to control a Generic OnOff Server using messages accepted by the Generic OnOff Server model.
 
 Some models also include a *Setup Server* model instance.
 The two server model instances share the states of the server model, but accept different messages.
