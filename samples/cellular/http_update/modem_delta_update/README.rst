@@ -42,7 +42,7 @@ Building and running
 Testing
 =======
 
-After programming the sample to your development kit,, test it by performing the following steps:
+After programming the sample to your development kit, test it by performing the following steps:
 
 1. Note the LED pattern (1 or 2 LEDs).
 #. Press **Button 1** on the nRF91 Series DK or type "download" in the terminal emulator to start downloading the delta modem firmware update.

@@ -425,9 +425,19 @@ NRF = [
     ("protocols/zigbee/tools", "protocols/zigbee/index"),
     ("applications/nrf5340_audio/README", "applications/nrf5340_audio/index"), # nRF5340 Audio applications (landing)
     ("applications/sdp/gpio/README", "applications/hpf/gpio/README"), #High-Performance Framework applications
+    ("applications/matter_weather_station/README", "applications/thingy53_matter_weather_station/README")# Renamed the folders to better match the sample names
+    ("applications/asset_tracker_template/README," "applications/asset_tracker_template_addon/README")
     ("samples/samples_bl", "samples/bl"), # Bluetooth samples (landing)
     ("samples/bluetooth/connection_event_trigger/README", "samples/bluetooth/event_trigger/README"),
     ("samples/bluetooth/broadcast_config_tool/README", "samples/bluetooth/nrf_auraconfig/README"),
+    ("samples/bluetooth/central_and_peripheral_hr/README", "samples/bluetooth/central_and_peripheral_hrs/README"), # Renamed the folders to better match the sample names
+    ("samples/bluetooth/subrating/README", "samples/bluetooth/conn_subrating/README"), 
+    ("samples/bootloader/README", "samples/nsib/README"),
+    ("samples/cellular/nrf_provisioning/README", "samples/cellular/nrf_device_provisioning/README"),
+    ("samples/bluetooth/mesh/light_ctrl/README", "samples/bluetooth/mesh/light_fixture/README"),
+    ("samples/bluetooth/mesh/sensor_client/README", "samples/bluetooth/mesh/sensor_observer/README"),
+    ("samples/bluetooth/mesh/sensor_server/README", "samples/bluetooth/mesh/sensor/README"),
+    ("samples/cellular/lte_ble_gateway/README", "samples/cellular/lte_sensor_gateway/README"),
     ("samples/samples_nrf9160", "samples/cellular"), # Cellular samples (landing)
     ("samples/samples_crypto", "samples/crypto"), # Cryptography samples (landing)
     ("samples/samples_edge", "samples/edge"), # Edge Impulse samples (landing)
@@ -439,6 +449,15 @@ NRF = [
     ("samples/samples_tfm", "samples/tfm"), # Trusted Firmware-M (TF-M) samples (landing)
     ("samples/samples_wifi", "samples/wifi"), # Wi-Fi samples (landing)
     ("samples/wifi/sr_coex/README", "samples/wifi/ble_coex/README"), # Wi-Fi: Bluetooth LE coexistence
+    ("samples/wifi/wfa_qt_app/README", "samples/wifi/wfa_quicktrack_app/README") # Renamed the folders to better match the sample names
+    ("samples/wifi/sta/README", "samples/wifi/station/README")
+    ("samples/caf/README", "samples/caf_preview/README")
+    ("samples/sensor/bme68x_iaq/README", "samples/sensor/bme68x_gas_sensor/README")
+    ("samples/sensor/bh1749/README", "samples/sensor/bh1749_ambient_light_sensor/README")
+    ("samples/matter/lock/README", "samples/matter/door_lock/README")
+    ("samples/dect/dect_phy/hello_dect/README", "samples/dect_nr+/dect_phy/hello_dect/README")
+    ("samples/dect/dect_phy/dect_shell/README", "samples/dect_nr+/dect_phy/dect_shell/README")
+    ("samples/cellular/cipher_suites/README", "samples/cellular/tls_cipher_suites/README")
     ("samples/samples_zigbee", "samples/zigbee"), # Zigbee samples (landing)
     ("samples/samples_other", "samples/other"), # Other samples (landing)
     ("samples/pmic/native/npm1300_fuel_gauge/README", "samples/pmic/native/npm13xx_fuel_gauge/README"),

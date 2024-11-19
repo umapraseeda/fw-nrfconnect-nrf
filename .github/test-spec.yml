@@ -96,7 +96,7 @@
   - "lib/sms/**/*"
   - "samples/cellular/at_client/**/*"
   - "samples/cellular/at_monitor/**/*"
-  - "samples/cellular/ciphersuites/**/*"
+  - "samples/cellular/tls_ciphersuites/**/*"
   - "samples/net/coap_client/**/*"
   - "samples/net/download/**/*"
   - "samples/cellular/http_update/**/*"
@@ -140,7 +140,7 @@
   - "lib/lte_link_control/**/*"
   - "modules/mcuboot/**/*"
   - "modules/trusted-firmware-m/*"
-  - "samples/bootloader/**/*"
+  - "samples/nsib/**/*"
   - "samples/nrf5340/extxip_smp_svr/**/*"
   - "samples/nrf5340/netboot/**/*"
   - "samples/zephyr/smp_svr_mini_boot/**/*"
@@ -173,7 +173,7 @@
   - "modules/trusted-firmware-m/*"
   - "samples/nrf5340/netboot/**/*"
   - "samples/nrf5340/extxip_smp_svr/**/*"
-  - "samples/bootloader/**/*"
+  - "samples/nsib/**/*"
   - "samples/mcuboot/**/*"
   - "scripts/bootloader/**/*"
   - "scripts/nrf_compress/**/*"
@@ -226,7 +226,7 @@
   - "drivers/mpsl/**/*"
 
 "CI-ble-samples-test":
-  - "samples/bluetooth/central_and_peripheral_hr/*"
+  - "samples/bluetooth/central_and_peripheral_hrs/*"
   - "samples/bluetooth/central_bas/*"
   - "samples/bluetooth/central_hids/*"
   - "samples/bluetooth/central_hr_coded/*"
@@ -407,8 +407,8 @@
   - "modules/mcuboot/**/*"
   - "samples/matter/**/*"
   - "applications/matter_bridge/**/*"
-  - "applications/matter_weather_station/**/*"
-  - "applications/ipc_radio/**/*"
+  - "applications/thingy53_matter_weather_station/**/*"
+  - "applications/ipc_radio_firmware/**/*"
 
 "CI-find-my-test":
   - "CMakeLists.txt"
