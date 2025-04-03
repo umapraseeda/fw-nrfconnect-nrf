@@ -1,31 +1,86 @@
-:orphan:
+.. _ncs_release_notes_3.0.0:
 
-.. _ncs_release_notes_changelog:
-
-Changelog for |NCS| v2.9.99
-###########################
+|NCS| v3.0.0 Release Notes
+##########################
 
 .. contents::
    :local:
    :depth: 2
 
-The most relevant changes that are present on the main branch of the |NCS|, as compared to the latest official release, are tracked in this file.
+|NCS| delivers reference software and supporting libraries for developing low-power wireless applications with Nordic Semiconductor products in the nRF52, nRF53, nRF54, nRF70, and nRF91 Series.
+The SDK includes open source projects (TF-M, MCUboot, OpenThread, Matter, and the Zephyr RTOS), which are continuously integrated and redistributed with the SDK.
 
-.. note::
-   This file is a work in progress and might not cover all relevant changes.
+Release notes might refer to "experimental" support for features, which indicates that the feature is incomplete in functionality or verification, and can be expected to change in future releases.
+To learn more, see :ref:`software_maturity`.
 
-.. HOWTO
+Highlights
+**********
+To be added
 
-   When adding a new PR, decide whether it needs an entry in the changelog.
-   If it does, update this page.
-   Add the sections you need, as only a handful of sections are kept when the changelog is cleaned.
-   The "Protocols" section serves as a highlight section for all protocol-related changes, including those made to samples, libraries, and so on.
+Release tag
+***********
+
+The release tag for the |NCS| manifest repository (|ncs_repo|) is **v3.0.0**.
+Check the :file:`west.yml` file for the corresponding tags in the project repositories.
+
+To use this release, check out the tag in the manifest repository and run ``west update``.
+See :ref:`cloning_the_repositories` and :ref:`gs_updating_repos_examples` for more information.
+
+For information on the included repositories and revisions, see `Repositories and revisions for v3.0.0`_.
+
+Integration test results
+************************
+
+The integration test results for this tag can be found in the following external artifactory:
+
+* `Twister test report for nRF Connect SDK v3.0.0`_
+* `Hardware test report for nRF Connect SDK v3.0.0`_
+
+IDE and tool support
+********************
+
+`nRF Connect extension for Visual Studio Code <nRF Connect for Visual Studio Code_>`_ is the recommended IDE for |NCS| v3.0.0.
+See the :ref:`installation` section for more information about supported operating systems and toolchain.
+
+Supported modem firmware
+************************
+
+See the following documentation for an overview of which modem firmware versions have been tested with this version of the |NCS|:
+
+* `Modem firmware compatibility matrix for the nRF9151 DK`_
+* `Modem firmware compatibility matrix for the nRF9161 DK`_
+* `Modem firmware compatibility matrix for the nRF9160 DK`_
+
+Use the latest version of the `Programmer app`_ of `nRF Connect for Desktop`_ to update the modem firmware.
+See :ref:`nrf9160_gs_updating_fw_modem` for instructions.
+
+Modem-related libraries and versions
+====================================
+
+.. list-table:: Modem-related libraries and versions
+   :widths: 15 10
+   :header-rows: 1
+
+   * - Library name
+     - Version information
+   * - Modem library
+     - `Changelog <Modem library changelog for v3.0.0_>`_
+   * - LwM2M carrier library
+     - `Changelog <LwM2M carrier library changelog for v3.0.0_>`_
+
 
 Known issues
 ************
 
 Known issues are only tracked for the latest official release.
-See `known issues for nRF Connect SDK v2.9.0-nRF54H20-1`_ for the list of issues valid for the latest release.
+See `known issues for nRF Connect SDK v3.0.0`_ for the list of issues valid for the latest release.
+
+Migration notes
+***************
+
+See the `Migration guide for nRF Connect SDK v3.0.0`_ for the changes required or recommended when migrating your application from |NCS| v2.9.0 to |NCS| v3.0.0.
+
+.. _ncs_release_notes_300_changelog:
 
 Changelog
 *********
@@ -48,7 +103,12 @@ IDE, OS, and tool support
   * Mentions of commands that use tools from the nRF Command Line Tools to use nRF Util.
     |nrf_CLT_deprecation_note|
 
-* Removed the Toolchain Manager app section from the following pages: :ref:`installation`, :ref:`updating`, :ref:`requirements`.
+* Removed the Toolchain Manager app section from the following pages:
+
+  * :ref:`installation`
+  * :ref:`updating`
+  * :ref:`requirements`
+
   The app has been deprecated and no longer provides the latest toolchain and |NCS| versions for installation.
 
 Board support
@@ -62,25 +122,21 @@ Build and configuration system
 * Removed support for the deprecated multi-image builds (parent-child images) functionality.
   All |NCS| projects must now use :ref:`sysbuild`.
   See :ref:`child_parent_to_sysbuild_migration` for an overview of differences with parent-child image and how to migrate.
-* Updated the default runner for the ``west flash`` command to `nRF Util`_ instead of ``nrfjprog`` that is part of the archived `nRF Command Line Tools`_.
-  For more information, see the :ref:`build system section in the v3.0.0 migration guide <migration_3.0_recommended>` and the :ref:`programming_selecting_runner` section on the programming page.
+* Updated:
 
-Bootloaders and DFU
-===================
-
-|no_changes_yet_note|
-
-Developing with nRF91 Series
-============================
-
-|no_changes_yet_note|
+  * The default runner for the ``west flash`` command to `nRF Util`_ instead of ``nrfjprog`` that is part of the archived `nRF Command Line Tools`_.
+    For more information, see the :ref:`build system section in the v3.0.0 migration guide <migration_3.0_recommended>` and the :ref:`programming_selecting_runner` section on the programming page.
+  * Erasing the external memory when programming a new firmware image with ``west flash`` series now always correctly honors the ``--erase`` flag (and its absence) both when using the ``nrfjprog`` and ``nrfutil`` backends.
+    Prior to this release, the ``nrjfprog`` backend would always erase only the sectors of the external flash used by the new firmware, and the ``nrfutil`` backend would always erase the whole external flash.
 
 Developing with nRF70 Series
 ============================
 
-* Added support for the nRF7002 EB II (PCA63571) with the nRF54 Series DKs as detailed in :ref:`ug_nrf7002eb2_gs`.
+* Added
+
+  * Support for the nRF7002 EB II (PCA63571) with the nRF54 Series DKs as detailed in :ref:`ug_nrf7002eb2_gs`.
+  * A new section :ref:`ug_nrf70_wifi_enterprise_mode` in the :ref:`ug_nrf70_wifi_advanced_security_modes` page.
 * Deprecated support for the nRF7002 EB (PCA63561) with the nRF54 Series DKs.
-* Added a new section :ref:`ug_nrf70_wifi_enterprise_mode` in the :ref:`ug_nrf70_wifi_advanced_security_modes` page.
 * Removed support for storing the nRF70 firmware patches in external flash without the :ref:`partition_manager`, as mentioned in :ref:`ug_nrf70_developing_fw_patch_ext_flash`.
 
 Developing with nRF54L Series
@@ -91,39 +147,9 @@ Developing with nRF54L Series
 Developing with nRF54H Series
 =============================
 
+* Added a new documentation page :ref:`ug_nrf54h20_suit_signing` under :ref:`ug_nrf54h20_suit_dfu`.
 * Removed the note on installing SEGGER USB Driver for J-Link on Windows from the :ref:`ug_nrf54h20_gs` page and moved its contents to the `nRF Util prerequisites`_ documentation.
   The Windows-only requirement to install the SEGGER USB Driver for J-Link is now mentioned in the :ref:`installing_vsc` section on the :ref:`installation` page.
-* Added a new documentation page :ref:`ug_nrf54h20_suit_signing` under :ref:`ug_nrf54h20_suit_dfu`.
-
-Developing with nRF53 Series
-============================
-
-|no_changes_yet_note|
-
-Developing with nRF52 Series
-============================
-
-|no_changes_yet_note|
-
-Developing with Thingy:91 X
-===========================
-
-|no_changes_yet_note|
-
-Developing with Thingy:91
-=========================
-
-|no_changes_yet_note|
-
-Developing with Thingy:53
-=========================
-
-|no_changes_yet_note|
-
-Developing with PMICs
-=====================
-
-|no_changes_yet_note|
 
 Developing with Front-End Modules
 =================================
@@ -142,7 +168,7 @@ Developing with PMICs
 Developing with custom boards
 =============================
 
-|no_changes_yet_note|
+* Added a new page on :ref:`programming_custom_board`.
 
 Security
 ========
@@ -150,10 +176,12 @@ Security
   * Added:
 
     * Support for HKDF-Expand and HKDF-Extract in CRACEN.
-    * Support for Ed25519ph(HashEdDSA) to CRACEN.
-    * Documentation page about the :ref:`ug_tfm_architecture`.
-    * Documentation page about the :ref:`ug_psa_certified_api_overview`.
-    * Documentation page about the :ref:`ug_tfm_supported_services`.
+    * Support for Ed25519ph (HashEdDSA) to CRACEN.
+    * The following documentation pages:
+
+       * :ref:`ug_tfm_architecture`.
+       * :ref:`ug_psa_certified_api_overview`.
+       * :ref:`ug_tfm_supported_services`.
 
   * Updated:
 
@@ -168,19 +196,19 @@ Security
 
     * The :ref:`app_approtect` page with nRF Util commands that replaced the nrfjprog commands.
       This is part of the ongoing work of archiving `nRF Command Line Tools`_ and replacing them with nRF Util.
-    * The Running applications with Trusted Firmware-M page by renaming it to :ref:`ug_tfm` and moving it under :ref:`ug_tfm_index`.
     * The :ref:`app_boards_spe_nspe` documentation page from the :ref:`ug_app_dev` section has been moved under :ref:`ug_tfm_index`.
 
+  * Removed the Running applications with Trusted Firmware-M page.
+    Its contents have been moved into the following new pages:
+
+    * :ref:`ug_tfm_index`
+    * :ref:`ug_tfm_building`
+    * :ref:`ug_tfm_logging`
+    * :ref:`ug_tfm_services`
+    * :ref:`ug_tfm_provisioning`
 
 Protocols
 =========
-
-|no_changes_yet_note|
-
-Amazon Sidewalk
----------------
-
-|no_changes_yet_note|
 
 Bluetooth® LE
 -------------
@@ -192,30 +220,26 @@ Bluetooth® LE
   * An issue where a flash operation executed on the system workqueue might result in ``-ETIMEDOUT``, if there is an active Bluetooth LE connection.
   * An issue where Bluetooth applications built with the ``nordic-bt-rpc`` snippet (in the :ref:`ble_rpc` configuration) did not work on the nRF54H20 devices due to incorrect memory mapping.
 
-* Removed the HCI_LE_Read_Local_P-256_Public_Key and HCI_LE_Generate_DHKey commands emulation from HCI driver.
+* Removed the ``HCI_LE_Read_Local_P-256_Public_Key`` and ``HCI_LE_Generate_DHKey`` commands emulation from HCI driver.
 
 Bluetooth Mesh
 --------------
 
 * Added the key importer functionality (:kconfig:option:`CONFIG_BT_MESH_KEY_IMPORTER`).
-
-DECT NR+
---------
-
-|no_changes_yet_note|
+* Updated the default value for :kconfig:option:`CONFIG_MBEDTLS_HEAP_SIZE` if :kconfig:option:`CONFIG_BT_MESH_NLC_PERF_CONF` is selected.
+  The :kconfig:option:`CONFIG_BT_MESH_NLC_PERF_CONF` Kconfig option increases the number of keys used by Mesh and the value of :kconfig:option:`CONFIG_MBEDTLS_HEAP_SIZE` Kconfig option needs to be increased accordingly.
+* Deprecation procedure has started for :kconfig:option:`CONFIG_BT_MESH_USES_TINYCYPT` and it is not recommended for future designs.
+  For platforms that support TF-M, the :kconfig:option:`CONFIG_BT_MESH_USES_TFM_PSA` Kconfig option is used by default.
+  For platforms that do not support TF-M, the :kconfig:option:`CONFIG_BT_MESH_USES_MBEDTLS_PSA` Kconfig option is used by default.
+* Removed experimental flags for TF-M PSA and mbed TLS PSA.
 
 Enhanced ShockBurst (ESB)
 -------------------------
 
 * Added:
 
-  * Loading of radio trims and a fix of a hardware errata for the nRF54H20 SoC to improve the RF performance.
-  * Workaround for the hardware errata HMPAN-216 for the nRF54H20 SoC.
-
-Gazell
-------
-
-|no_changes_yet_note|
+   * Loading of radio trims and a fix of a hardware errata for the nRF54H20 SoC to improve the RF performance.
+   * Workaround for the hardware errata HMPAN-216 for the nRF54H20 SoC.
 
 Matter
 ------
@@ -233,19 +257,14 @@ Matter
 
 * Updated:
 
-  * By disabling the :ref:`mpsl` before performing factory reset to speed up the process.
-  * The `ug_matter_device_low_power_configuration` page to mention the `nWP049 - Matter over Thread: Power consumption and battery life`_ and `Online Power Profiler for Matter over Thread`_ as a useful resources in optimizing the power consumption of a Matter device.
+   * By disabling the :ref:`mpsl` before performing factory reset to speed up the process.
+   * The :ref:`ug_matter_device_low_power_configuration` page to mention the `nWP049 - Matter over Thread: Power consumption and battery life`_ and `Online Power Profiler for Matter over Thread`_ as useful resources in optimizing the power consumption of a Matter device.
 
 Matter fork
 +++++++++++
 
 * Added a new ``kFactoryReset`` event that is posted during factory reset.
   The application can register a handler and perform additional cleanup.
-
-nRF IEEE 802.15.4 radio driver
-------------------------------
-
-|no_changes_yet_note|
 
 Thread
 ------
@@ -279,16 +298,6 @@ Machine learning
 
 * Updated the application to enable the :ref:`Zephyr Memory Storage (ZMS) <zephyr:zms_api>` file system for the :ref:`zephyr:nrf54h20dk_nrf54h20` board.
 
-Asset Tracker v2
-----------------
-
-* Updated the application to use the :ref:`lib_downloader` library instead of the deprecated :ref:`lib_download_client` library.
-
-Connectivity Bridge
--------------------
-
-|no_changes_yet_note|
-
 IPC radio firmware
 ------------------
 
@@ -297,7 +306,7 @@ IPC radio firmware
   * The application to enable the :ref:`Zephyr Memory Storage (ZMS) <zephyr:zms_api>` file system in all devices that contain MRAM, such as the nRF54H Series devices.
   * The documentation of applications and samples that use the IPC radio firmware as a :ref:`companion component <companion_components>` to mention its usage when built with :ref:`configuration_system_overview_sysbuild`.
 
-Matter Bridge
+Matter bridge
 -------------
 
 * Updated by enabling Link Time Optimization (LTO) by default for the ``release`` configuration.
@@ -309,8 +318,10 @@ nRF5340 Audio
 * Updated:
 
   * The documentation for :ref:`nrf53_audio_app_building` with cross-links and additional information.
-  * The :file:`buildprog.py` is an app-specific script for building and programming multiple kits and cores with various audio application configurations. The script will be deprecated in a future release. The audio applications will gradually shift only to using standard tools for building and programming development kits.
-  * The :ref:`nrf53_audio_app` :ref:`nrf53_audio_app_building_script` now builds into a directory for each transport, device type, core, and version combination.
+  * The :file:`buildprog.py` script is an app-specific script for building and programming multiple kits and cores with various audio application configurations.
+    The script will be deprecated in a future release.
+    The audio applications will gradually shift only to using standard tools for building and programming development kits.
+  * The :ref:`nRF5340 Audio application\'s <nrf53_audio_app>` :ref:`script for building and programming <nrf53_audio_app_building_script>` now builds into a directory for each transport, device type, core, and version combination.
 
 nRF Desktop
 -----------
@@ -325,11 +336,11 @@ nRF Desktop
     The configuration enables logs and mimics the dongle configuration used for small SoCs.
   * Requirement for zero latency in Zephyr's :ref:`zephyr:pm-system` while USB is active (:ref:`CONFIG_DESKTOP_USB_PM_REQ_NO_PM_LATENCY <config_desktop_app_options>` Kconfig option of the :ref:`nrf_desktop_usb_state_pm`).
     The feature is enabled by default if Zephyr power management (:kconfig:option:`CONFIG_PM`) is enabled.
-    It prevents entering power states that introduce wakeup latency and ensure high performance.
+    It prevents entering power states that introduce wakeup latency and ensures high performance.
   * Static Partition Manager memory maps for single-image configurations (without bootloader and separate radio/network core image).
     In the |NCS|, the Partition Manager is enabled by default for single-image sysbuild builds.
     The static memory map ensures control over settings partition placement and size.
-    The introduced static memory maps may not be consistent with the ``storage_partition`` defined by the board-level DTS configuration.
+    The introduced static memory maps might not be consistent with the ``storage_partition`` defined by the board-level DTS configuration.
   * Support for GATT long (reliable) writes (:kconfig:option:`CONFIG_BT_ATT_PREPARE_COUNT`) to Fast Pair and Works With ChromeBook (WWCB) configurations.
     This allows performing :ref:`fwupd <nrf_desktop_fwupd>` DFU image upload over Bluetooth LE with GATT clients that do not perform MTU exchange (for example, ChromeOS using the Floss Bluetooth stack).
   * The ``dongle`` and ``release_dongle`` application configurations for the nRF54H20 Development Kit (``nrf54h20dk/nrf54h20/cpuapp``).
@@ -344,7 +355,7 @@ nRF Desktop
     LTO was also explicitly enabled in configurations of other images built by sysbuild (bootloader, network core image).
   * Application configurations for nRF54L05, nRF54L10, and nRF54L15 SoCs to use Fast Pair PSA cryptography (:kconfig:option:`CONFIG_BT_FAST_PAIR_CRYPTO_PSA`).
     Using PSA cryptography improves security and reduces memory footprint.
-    Also increased the size of the Bluetooth receiving thread stack (:kconfig:option:`CONFIG_BT_RX_STACK_SIZE`) to prevent stack overflows.
+    Also, increased the size of the Bluetooth receiving thread stack (:kconfig:option:`CONFIG_BT_RX_STACK_SIZE`) to prevent stack overflows.
   * Application configurations for the nRF52820 SoC to reduce memory footprint:
 
     * Disabled Bluetooth long workqueue (:kconfig:option:`CONFIG_BT_LONG_WQ`).
@@ -374,7 +385,7 @@ nRF Desktop
     The negative impact of USB polling jitter is more visible in case of USB High-Speed.
   * The Fast Pair sysbuild configurations to align the application with the sysbuild Kconfig changes for controlling the Fast Pair provisioning process.
     The Nordic device models intended for demonstration purposes are now supplied by default in the nRF Desktop Fast Pair configurations.
-  * The :ref:`nrf_desktop_dvfs` to no longer consume the :c:struct:`ble_peer_conn_params_event`.
+  * The :ref:`nrf_desktop_dvfs` to no longer consume the :c:struct:`ble_peer_conn_params_event` event.
     This allows to propagate the event to further listeners of the same or lower priority.
     This prevents an issue where :ref:`nrf_desktop_ble_latency` is not informed about the connection parameter update (it might cause missing connection latency updates).
   * The Low Latency Packet Mode (LLPM) dependency in the :ref:`nrf_desktop_ble_conn_params`.
@@ -389,34 +400,29 @@ nRF Desktop
 
   * An imply from the nRF Desktop Bluetooth connectivity Kconfig option (:ref:`CONFIG_DESKTOP_BT <config_desktop_app_options>`).
     The imply enabled a separate workqueue for connection TX notify processing (:kconfig:option:`CONFIG_BT_CONN_TX_NOTIFY_WQ`) if MPSL was used for synchronization between the flash memory driver and the radio (:kconfig:option:`CONFIG_SOC_FLASH_NRF_RADIO_SYNC_MPSL`).
-    The workaround for the MPSL flash synchronization issue (``NCSDK-29354`` in the :ref:`known_issues` page) is no longer needed, as the issue is now fixed.
+    The workaround for the MPSL flash synchronization issue (NCSDK-29354 in the :ref:`known_issues` page) is no longer needed, as the issue is now fixed.
   * Application configurations for the nRF52810 Desktop Mouse board (``nrf52810dmouse/nrf52810``).
     The board is no longer supported in the |NCS|.
-
-nRF Machine Learning (Edge Impulse)
------------------------------------
-
-|no_changes_yet_note|
 
 Serial LTE modem
 ----------------
 
-* Added an overlay :file:`overlay-memfault.conf` file to enable Memfault.
-  For more information about Memfault features in |NCS|, see :ref:`mod_memfault`.
+* Added an overlay file :file:`overlay-memfault.conf` to enable Memfault.
+  See :ref:`mod_memfault` for more information about Memfault features in |NCS|.
 
 * Updated:
 
   * The application to use the :ref:`lib_downloader` library instead of the deprecated :ref:`lib_download_client` library.
   * In Zephyr, the numerical values of various |NCS| specific socket options that are used with the ``#XSOCKETOPT`` command:
 
-      * The :c:macro:`TLS_DTLS_HANDSHAKE_TIMEO` has been changed from ``18`` to ``1018``
-      * The :c:macro:`SO_SILENCE_ALL` has been changed from ``30`` to ``1030``
-      * The :c:macro:`SO_IP_ECHO_REPLY` has been changed from ``31`` to ``1031``
-      * The :c:macro:`SO_IPV6_ECHO_REPLY` has been changed from ``32`` to ``1032``
-      * The :c:macro:`SO_BINDTOPDN` has been changed from ``40`` to ``1040``
-      * The :c:macro:`SO_TCP_SRV_SESSTIMEO` has been changed from ``55`` to ``1055``
-      * The :c:macro:`SO_RAI` has been changed from ``61`` to ``1061``
-      * The :c:macro:`SO_IPV6_DELAYED_ADDR_REFRESH` has been changed from ``62`` to ``1062``
+      * :c:macro:`TLS_DTLS_HANDSHAKE_TIMEO`- Changed from ``18`` to ``1018``.
+      * :c:macro:`SO_SILENCE_ALL` - Changed from ``30`` to ``1030``.
+      * :c:macro:`SO_IP_ECHO_REPLY` - Changed from ``31`` to ``1031``.
+      * :c:macro:`SO_IPV6_ECHO_REPLY` - Changed from ``32`` to ``1032``.
+      * :c:macro:`SO_BINDTOPDN` - Changed from ``40`` to ``1040``.
+      * :c:macro:`SO_TCP_SRV_SESSTIMEO` - Changed from ``55`` to ``1055``.
+      * :c:macro:`SO_RAI` - Changed from ``61`` to ``1061``.
+      * :c:macro:`SO_IPV6_DELAYED_ADDR_REFRESH` - Changed from ``62`` to ``1062``.
 
 Thingy:53: Matter weather station
 ---------------------------------
@@ -427,11 +433,6 @@ Samples
 =======
 
 This section provides detailed lists of changes by :ref:`sample <samples>`.
-
-Amazon Sidewalk samples
------------------------
-
-|no_changes_yet_note|
 
 Bluetooth samples
 -----------------
@@ -502,60 +503,9 @@ Bluetooth samples
 
   * Added reconnection to bonded devices based on their address.
 
-Bluetooth Mesh samples
-----------------------
+* :ref:`power_profiling` sample:
 
-* :ref:`bluetooth_mesh_light_lc` sample:
-
-  * Updated by disabling the Friend feature when the sample is compiled for the :ref:`zephyr:nrf52dk_nrf52832` board target to increase the amount of RAM available for the application.
-
-Bluetooth Fast Pair samples
----------------------------
-
-* Added support for the ``nrf54l15dk/nrf54l05/cpuapp`` and ``nrf54l15dk/nrf54l10/cpuapp`` board targets in all Fast Pair samples.
-
-* Updated:
-
-  * The non-secure target (``nrf5340dk/nrf5340/cpuapp/ns`` and ``thingy53/nrf5340/cpuapp/ns``) configurations of all Fast Pair samples to use configurable TF-M profile instead of the predefined minimal TF-M profile.
-    This change results from the Bluetooth subsystem transition to the PSA cryptographic standard.
-    The Bluetooth stack can now use the PSA crypto API in the non-secure domain as all necessary TF-M partitions are configured properly.
-  * The configuration of all Fast Pair samples by increasing the following thread stack sizes to prevent stack overflows:
-
-    * The system workqueue thread stack (:kconfig:option:`CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE`).
-    * The Bluetooth receiving thread stack (:kconfig:option:`CONFIG_BT_RX_STACK_SIZE`).
-
-    This change results from the Bluetooth subsystem transition to the PSA cryptographic API.
-  * The sysbuild configurations in samples to align them with the sysbuild Kconfig changes for controlling the Fast Pair provisioning process.
-
-* Removed using a separate workqueue for connection TX notify processing (:kconfig:option:`CONFIG_BT_CONN_TX_NOTIFY_WQ`) from configurations.
-  The MPSL flash synchronization issue (``NCSDK-29354`` in the :ref:`known_issues`) is fixed.
-  The workaround is no longer needed.
-
-* :ref:`fast_pair_locator_tag` sample:
-
-  * Added support for the following:
-
-    * :ref:`zephyr:nrf54h20dk_nrf54h20` board target.
-    * Firmware update intents on the Android platform.
-      Integrated the new connection authentication callback from the FMDN module and the Device Information Service (DIS) to support firmware version read operation over the Firmware Revision characteristic.
-      For further details on the Android intent feature for firmware updates, see the :ref:`ug_bt_fast_pair_provisioning_register_firmware_update_intent` section of the Fast Pair integration guide.
-
-  * Updated:
-
-    * The partition layout for the ``nrf5340dk/nrf5340/cpuapp/ns`` and ``thingy53/nrf5340/cpuapp/ns`` board targets to accommodate the partitions needed due to a change in the TF-M profile configuration.
-    * The debug (default) configuration of the main image to enable the Link Time Optimization (LTO) with the :kconfig:option:`CONFIG_LTO` Kconfig option.
-      This change ensures consistency with the sample release configuration that has the LTO feature enabled by default.
-    * The ``nrf54l15dk/nrf54l15/cpuapp`` board target configuration to enable hardware cryptography for the MCUboot bootloader.
-      The application image is verified using a pure ED25519 signature and the public key used by MCUboot for validating the application image is securely stored in the Key Management Unit (KMU) hardware peripheral.
-      Support for the ``nrf54l15dk/nrf54l05/cpuapp`` and ``nrf54l15dk/nrf54l10/cpuapp`` board targets, which is added to this sample in this release iteration, also includes the same MCUboot bootloader configuration with the hardware cryptography enabled.
-
-      The change modifies the memory partition layout for the ``nrf54l15dk/nrf54l15/cpuapp`` board target and changes the MCUboot image signing algorithm.
-      Because of that, the application images built for the ``nrf54l15dk/nrf54l15/cpuapp`` board target from this |NCS| release are not compatible with the MCUboot bootloader built from previous releases.
-      It is highly recommended to use hardware cryptography for the nRF54L SoC Series for improved security.
-    * The configurations for board targets with the MCUboot bootloader support to use a non-default signature key file (the ``SB_CONFIG_BOOT_SIGNATURE_KEY_FILE`` Kconfig option).
-      The application uses a unique signature key file for each board target, which is defined at the same directory level as the target sysbuild configuration file.
-      This modification changes the key set that is used by the MCUboot DFU solution.
-      Because of that, the application images from this |NCS| release are not compatible with the MCUboot bootloader built from previous releases.
+  * Added the :kconfig:option:`CONFIG_BT_POWER_PROFILING_NFC_DISABLED` Kconfig option to reduce the power consumption by disabling the NFC.
 
 Bluetooth Mesh samples
 ----------------------
@@ -588,10 +538,63 @@ Bluetooth Mesh samples
     * :ref:`bluetooth_mesh_light`
     * :ref:`bluetooth_mesh_light_lc`
 
-* Updated the following samples to include the value of the :kconfig:option:`CONFIG_BT_COMPANY_ID` option in the Firmware ID:
+* Updated:
 
-  * :ref:`ble_mesh_dfu_distributor`
-  * :ref:`ble_mesh_dfu_target`
+  * The board configuration files for targets nRF54L15, nRF54L10, and nRF54L05 by increasing the values of :kconfig:option:`CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE` and :kconfig:option:`CONFIG_BT_RX_STACK_SIZE` Kconfig options to prevent stack overflows when :kconfig:option:`CONFIG_BT_MESH_USES_MBEDTLS_PSA` is selected.
+  * The following samples to include the value of the :kconfig:option:`CONFIG_BT_COMPANY_ID` option in the Firmware ID:
+
+    * :ref:`ble_mesh_dfu_distributor`
+    * :ref:`ble_mesh_dfu_target`
+
+  * The friend feature is disabled when the :ref:`bluetooth_mesh_light_lc` sample is compiled for the :ref:`zephyr:nrf52dk_nrf52832` board target to increase the amount of RAM available for the application.
+
+Bluetooth Fast Pair samples
+---------------------------
+
+* Added support for the ``nrf54l15dk/nrf54l05/cpuapp`` and ``nrf54l15dk/nrf54l10/cpuapp`` board targets in all Fast Pair samples.
+
+* Updated:
+
+  * The non-secure target (``nrf5340dk/nrf5340/cpuapp/ns`` and ``thingy53/nrf5340/cpuapp/ns``) configurations of all Fast Pair samples to use configurable TF-M profile instead of the predefined minimal TF-M profile.
+    This change results from the Bluetooth subsystem transition to the PSA cryptographic standard.
+    The Bluetooth stack can now use the PSA crypto API in the non-secure domain as all necessary TF-M partitions are configured properly.
+  * The configuration of all Fast Pair samples by increasing the following thread stack sizes to prevent stack overflows:
+
+    * The system workqueue thread stack (:kconfig:option:`CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE`).
+    * The Bluetooth receiving thread stack (:kconfig:option:`CONFIG_BT_RX_STACK_SIZE`).
+
+    This change results from the Bluetooth subsystem transition to the PSA cryptographic API.
+  * The sysbuild configurations in samples to align them with the sysbuild Kconfig changes for controlling the Fast Pair provisioning process.
+
+* Removed using a separate workqueue for connection TX notify processing (:kconfig:option:`CONFIG_BT_CONN_TX_NOTIFY_WQ`) from configurations.
+  The MPSL flash synchronization issue (NCSDK-29354 in the :ref:`known_issues`) is fixed.
+  The workaround is no longer needed.
+
+* :ref:`fast_pair_locator_tag` sample:
+
+  * Added support for the following:
+
+    * :ref:`zephyr:nrf54h20dk_nrf54h20` board target.
+    * Firmware update intents on the Android platform.
+      Integrated the new connection authentication callback from the FMDN module and the Device Information Service (DIS) to support firmware version read operation over the Firmware Revision characteristic.
+      For further details on the Android intent feature for firmware updates, see the :ref:`ug_bt_fast_pair_provisioning_register_firmware_update_intent` section of the Fast Pair integration guide.
+
+  * Updated:
+
+    * The partition layout for the ``nrf5340dk/nrf5340/cpuapp/ns`` and ``thingy53/nrf5340/cpuapp/ns`` board targets to accommodate the partitions needed due to a change in the TF-M profile configuration.
+    * The debug (default) configuration of the main image to enable the Link Time Optimization (LTO) with the :kconfig:option:`CONFIG_LTO` Kconfig option.
+      This change ensures consistency with the sample release configuration that has the LTO feature enabled by default.
+    * The ``nrf54l15dk/nrf54l15/cpuapp`` board target configuration to enable hardware cryptography for the MCUboot bootloader.
+      The application image is verified using a pure ED25519 signature and the public key used by MCUboot for validating the application image is securely stored in the Key Management Unit (KMU) hardware peripheral.
+      Support for the ``nrf54l15dk/nrf54l05/cpuapp`` and ``nrf54l15dk/nrf54l10/cpuapp`` board targets, which is added to this sample in this release iteration, also includes the same MCUboot bootloader configuration with the hardware cryptography enabled.
+
+      The change modifies the memory partition layout for the ``nrf54l15dk/nrf54l15/cpuapp`` board target and changes the MCUboot image signing algorithm.
+      Because of that, the application images built for the ``nrf54l15dk/nrf54l15/cpuapp`` board target from this |NCS| release are not compatible with the MCUboot bootloader built from previous releases.
+      It is highly recommended to use hardware cryptography for the nRF54L SoC Series for improved security.
+    * The configurations for board targets with the MCUboot bootloader support to use a non-default signature key file (the ``SB_CONFIG_BOOT_SIGNATURE_KEY_FILE`` Kconfig option).
+      The application uses a unique signature key file for each board target, which is defined at the same directory level as the target sysbuild configuration file.
+      This modification changes the key set that is used by the MCUboot DFU solution.
+      Because of that, the application images from this |NCS| release are not compatible with the MCUboot bootloader built from previous releases.
 
 Cellular samples
 ----------------
@@ -640,16 +643,6 @@ Cryptography samples
 
   * Added support for the TLS v1.3.
 
-Debug samples
--------------
-
-|no_changes_yet_note|
-
-DECT NR+ samples
-----------------
-
-|no_changes_yet_note|
-
 Edge Impulse samples
 --------------------
 
@@ -659,16 +652,6 @@ Enhanced ShockBurst samples
 ---------------------------
 
 * Added support for the ``nrf54l15dk/nrf54l05/cpuapp`` and ``nrf54l15dk/nrf54l10/cpuapp`` board targets in all ESB samples.
-
-Gazell samples
---------------
-
-|no_changes_yet_note|
-
-Keys samples
-------------
-
-|no_changes_yet_note|
 
 Matter samples
 --------------
@@ -743,35 +726,25 @@ PMIC samples
 
   * Updated to accommodate API changes in nRF Fuel Gauge library v1.0.0.
 
-Protocol serialization samples
-------------------------------
-
-|no_changes_yet_note|
-
 SDFW samples
 ------------
 
 * Removed the SDFW: Service Framework Client sample as all services demonstrated by the sample have been removed.
-
-Sensor samples
---------------
-
-|no_changes_yet_note|
 
 SUIT samples
 ------------
 
 * Added the :ref:`nrf54h_suit_ab_sample` sample that demonstrates how to perform A/B updates using SUIT manifests.
 
-* :ref:`nrf54h_suit_sample` sample:
+ * :ref:`nrf54h_suit_sample` sample:
 
-  * Updated:
+   * Updated:
 
-    * The memory maps to cover the entire available MRAM memory.
-    * The memory maps to place recovery firmware on lower addresses than the main firmware.
-    * By enabling secure entropy source in all main Bluetooth-enabled sample variants (except recovery firmware).
-    * By extending the manifests to process the ``suit-payload-fetch`` sequence of the Nordic top update candidate.
-    * By extending the manifests with build-time checks for consistency between MPI and envelope signing configuration.
+     * The memory maps to cover the entire available MRAM memory.
+     * The memory maps to place recovery firmware on lower addresses than the main firmware.
+     * By enabling secure entropy source in all main Bluetooth-enabled sample variants (except recovery firmware).
+     * By extending the manifests to process the ``suit-payload-fetch`` sequence of the Nordic top update candidate.
+     * By extending the manifests with build-time checks for consistency between MPI and envelope signing configuration.
 
 Trusted Firmware-M (TF-M) samples
 ---------------------------------
@@ -781,7 +754,7 @@ Trusted Firmware-M (TF-M) samples
   * Added support for the following attestation token fields:
 
     * Profile definition
-    * PSA certificate reference (optional), configured using the :kconfig:option:`SB_CONFIG_TFM_OTP_PSA_CERTIFICATE_REFERENCE` sysbuild Kconfig option
+    * PSA certificate reference (optional), configured using the ``SB_CONFIG_TFM_OTP_PSA_CERTIFICATE_REFERENCE`` sysbuild Kconfig option
     * Verification service URL (optional), configured using the :kconfig:option:`CONFIG_TFM_ATTEST_VERIFICATION_SERVICE_URL` Kconfig option
 
 * :ref:`tfm_secure_peripheral_partition` sample:
@@ -810,10 +783,14 @@ Wi-Fi samples
 
 * Radio test samples:
 
-  * Added the :ref:`wifi_radio_test_sd` sample to demonstrate the Wi-Fi and Bluetooth LE radio test running on the application core.
+  * Added:
+
+    * The :ref:`wifi_radio_test_sd` sample to demonstrate the Wi-Fi and Bluetooth LE radio test running on the application core.
+    * The ``wifi_radio_test get_voltage`` command to read battery voltage.
+
   * Updated:
 
-    * The :ref:`wifi_radio_test` sample is now moved to :zephyr_file:`samples/wifi/radio_test/multi_domain`.
+    * The :ref:`wifi_radio_test` sample is now moved to :file:`samples/wifi/radio_test/multi_domain`.
 
 * :ref:`wifi_shell_sample` sample:
 
@@ -847,24 +824,17 @@ Drivers
 
 This section provides detailed lists of changes by :ref:`driver <drivers>`.
 
-|no_changes_yet_note|
+* Added a :ref:`flash_ipuc` that allows to manage SUIT IPUC memory through the Zephyr flash API.
 
 Wi-Fi drivers
 -------------
 
 * Added:
 
-  * Advanced debug shell for reading and writing registers/memory of the nRF70 Series chip.
+  * An advanced debug shell for reading and writing registers/memory of the nRF70 Series chip.
     The debug shell can be enabled using the :kconfig:option:`CONFIG_WIFI_NRF70_DEBUG_SHELL` Kconfig option.
 
-* Updated:
-
-  * The ``wifi_util`` shell command is now renamed to ``nrf70 util``.
-
-Flash drivers
--------------
-
-* Added a :ref:`flash_ipuc` driver that allows to manage SUIT IPUC memory through the Zephyr flash API.
+  * Updated the ``wifi_util`` shell command, which is now renamed to ``nrf70 util``.
 
 Libraries
 =========
@@ -876,7 +846,11 @@ Binary libraries
 
 * :ref:`liblwm2m_carrier_readme` library:
 
-  * Updated the glue to use the :ref:`lib_downloader` library instead of the deprecated :ref:`lib_download_client` library.
+  * Updated:
+
+    * The library to v3.7.0.
+      See the :ref:`liblwm2m_carrier_changelog` for detailed information.
+    * The glue to use the :ref:`lib_downloader` library instead of the deprecated :ref:`lib_download_client` library.
 
 Bluetooth libraries and services
 --------------------------------
@@ -889,11 +863,11 @@ Bluetooth libraries and services
 
     * A restriction on the :kconfig:option:`CONFIG_BT_FAST_PAIR_FMDN_TX_POWER` Kconfig option in the Find My Device Network (FMDN) extension configuration.
       You must set this Kconfig option now to ``0`` at minimum as the Fast Pair specification requires that the conducted Bluetooth transmit power for FMDN advertisements must not be lower than 0 dBm.
-    * A new information callback - :c:member:`bt_fast_pair_fmdn_info_cb.conn_authenticated` - to the FMDN extension API.
+    * A new information callback, :c:member:`bt_fast_pair_fmdn_info_cb.conn_authenticated`, to the FMDN extension API.
       In the FMDN context, this change is required to support firmware update intents on the Android platform.
       For further details on the Android intent feature for firmware updates, see the :ref:`ug_bt_fast_pair_provisioning_register_firmware_update_intent` section in the Fast Pair integration guide.
     * A workaround for the issue where the FMDN clock value might not be correctly set after the system reboot for nRF54L Series devices.
-      For details, see the ``NCSDK-32268`` issue in the :ref:`known_issues` page.
+      For details, see the NCSDK-32268 known issue in the :ref:`known_issues` page.
     * A new function :c:func:`bt_fast_pair_fmdn_is_provisioned` for the FMDN extension API.
       This function can be used to synchronously check the current FMDN provisioning state.
       For more details, see the :ref:`ug_bt_fast_pair_gatt_service_fmdn_info_callbacks_provisioning_state` section in the Fast Pair integration guide.
@@ -915,14 +889,14 @@ Bluetooth libraries and services
 
 * :ref:`bt_mesh` library:
 
-  * Fixed an issue in the :ref:`bt_mesh_light_ctrl_srv_readme` model to automatically resume the Lightness Controller after recalling a scene (``NCSDK-30033`` known issue).
+  * Fixed an issue in the :ref:`bt_mesh_light_ctrl_srv_readme` model to automatically resume the Lightness Controller after recalling a scene (NCSDK-30033 known issue).
 
 Common Application Framework
 ----------------------------
 
 * :ref:`caf_buttons`:
 
-  * Added possibility of using more GPIOs.
+  * Added the possibility of using more GPIOs.
     Earlier, only **GPIO0** and **GPIO1** devices were supported.
     Now, the generic solution supports all GPIOs available in the DTS.
 
@@ -937,53 +911,43 @@ Common Application Framework
       Enabling the device runtime power management also prevents using system-managed device power management (:kconfig:option:`CONFIG_PM_DEVICE_SYSTEM_MANAGED`) by default.
       The system-managed device power management does not work properly with some drivers (for example, nrfx UARTE) and should be avoided.
 
-Debug libraries
----------------
-
-|no_changes_yet_note|
-
 DFU libraries
 -------------
 
-|no_changes_yet_note|
+* Added:
+
+  * Support for :ref:`manifest-controlled variables<subsys_suit_mfst_var>` that allow to control manifest logic based on previous evaluations as well as store integer values inside the SUIT non-volatile memory region.
+  * Support for :ref:`In-place Updateable Components (IPUC)<ug_nrf54h20_suit_ipuc>` that allow to cross memory permission boundaries to update inactive memory regions from the main application.
 
 * :ref:`lib_fmfu_fdev`:
 
   * Regenerated the zcbor-generated code files using v0.9.0.
 
-* Added:
+* :ref:`subsys_suit`:
 
-  * Support for :ref:`manifest-controlled variables<subsys_suit_mfst_var>`, that allow to control manifest logic based on previous evaluations as well as store integer values inside the SUIT non-volatile memory region.
-  * Support for :ref:`In-place Updateable Components (IPUC)<ug_nrf54h20_suit_ipuc>` that allow to cross memory permission boundaries to update inactive memory regions from the main application.
-  * Support for IPUC in SUIT manifests:
+   * Added:
 
-    * It is possible to fetch payloads directly into an IPUC.
-    * It is possible to declare an IPUC as DFU cache area.
-    * It is possible to trigger Nordic firmware updates from an IPUC-based DFU cache area.
+     * Support for manifest-controlled variables, that allow to control manifest logic based on previous evaluations as well as store integer values inside the SUIT non-volatile memory region.
+     * Support for in-place updateable components (IPUC) that allows to cross memory permission boundaries to update inactive memory regions from the main application.
+     * Support for IPUC in SUIT manifests that makes possible the following:
 
-  * Support for IPUC in DFU protocols:
+       * To fetch payloads directly into an IPUC.
+       * To declare an IPUC as DFU cache area.
+       * To trigger Nordic firmware updates from an IPUC-based DFU cache area.
 
-    * It is possible to write into IPUC using SMP image command group.
-    * It is possible to write into IPUC using SUIT SMP cache raw upload commands.
-    * It is possible to write into IPUC using SUIT :ref:`dfu_target<lib_dfu_target_suit_style_update>` library.
+     * Support for IPUC in DFU protocols that makes possible the following:
 
-  * A possibility to copy binaries into radio local RAM memory from SUIT radio manifests.
-  * A possibility to specify the minimal Nordic top manifest version in the :file:`VERSION` file.
-  * A possibility to block independent updates of Nordic manifests using the :kconfig:option:`CONFIG_SUIT_NORDIC_TOP_INDEPENDENT_UPDATE_FORBIDDEN` Kconfig option.
+       * To write into IPUC using SMP image command group.
+       * To write into IPUC using SUIT SMP cache raw upload commands.
+       * To write into IPUC using SUIT :ref:`dfu_target<lib_dfu_target_suit_style_update>` library.
 
-* Updated:
+     * Possibilities for the following:
 
-  * By moving the MPI configuration from local Kconfigs to sysbuild.
+       * To copy binaries into radio local RAM memory from SUIT radio manifests.
+       * To specify the minimal Nordic top manifest version in the :file:`VERSION` file.
+       * To block independent updates of Nordic manifests using the :kconfig:option:`CONFIG_SUIT_NORDIC_TOP_INDEPENDENT_UPDATE_FORBIDDEN` Kconfig option.
 
-Gazell libraries
-----------------
-
-|no_changes_yet_note|
-
-Security libraries
-------------------
-
-|no_changes_yet_note|
+   * Updated by moving the MPI configuration from local Kconfig options to sysbuild.
 
 Modem libraries
 ---------------
@@ -1014,10 +978,9 @@ Modem libraries
     * An issue with the :c:func:`modem_key_mgmt_clear` function where ``+CMEE`` error notifications were not restored to their original state if the ``AT%CMNG`` AT command failed.
     * The :c:func:`modem_key_mgmt_clear` function to lock the shared scratch buffer.
 
-* Updated the :ref:`nrf_modem_lib_lte_net_if` to automatically set the actual link :term:`Maximum Transmission Unit (MTU)` on the network interface when PDN connectivity is gained.
-
 * :ref:`nrf_modem_lib_readme`:
 
+  * Updated the :ref:`nrf_modem_lib_lte_net_if` to automatically set the actual link :term:`Maximum Transmission Unit (MTU)` on the network interface when PDN connectivity is gained.
   * Fixed a bug where various subsystems would be erroneously initialized during a failed initialization of the library.
 
 * :ref:`lib_location` library:
@@ -1041,8 +1004,7 @@ Modem libraries
 
   * Updated:
 
-    * By renaming the ``CONFIG_MODEM_SLM_WAKEUP_PIN`` and ``CONFIG_MODEM_SLM_WAKEUP_TIME`` Kconfig options to
-      :kconfig:option:`CONFIG_MODEM_SLM_POWER_PIN` and :kconfig:option:`CONFIG_MODEM_SLM_POWER_PIN_TIME`, respectively.
+    * By renaming the ``CONFIG_MODEM_SLM_WAKEUP_PIN`` and ``CONFIG_MODEM_SLM_WAKEUP_TIME`` Kconfig options to :kconfig:option:`CONFIG_MODEM_SLM_POWER_PIN` and :kconfig:option:`CONFIG_MODEM_SLM_POWER_PIN_TIME`, respectively.
     * By renaming the :c:func:`modem_slm_wake_up` function to :c:func:`modem_slm_power_pin_toggle`.
 
 Multiprotocol Service Layer libraries
@@ -1098,45 +1060,20 @@ Libraries for networking
     * To use the :ref:`lib_downloader` library for CoAP downloads.
     * To use the :ref:`lib_app_jwt` library to generate JWT tokens.
 
-Libraries for NFC
------------------
-
-|no_changes_yet_note|
-
-nRF RPC libraries
------------------
-
-|no_changes_yet_note|
-
 Other libraries
 ---------------
-
-* Removed the following unused SDFW services: ``echo_service``, ``reset_evt_service``, and ``sdfw_update_service``.
 
 * :ref:`mod_dm` library:
 
   * Updated the default timeslot duration to avoid an overstay assert when the ranging failed.
 
-Security libraries
-------------------
-
-|no_changes_yet_note|
-
-Shell libraries
----------------
-
-|no_changes_yet_note|
+* Removed the following unused SDFW services: ``echo_service``, ``reset_evt_service``, and ``sdfw_update_service``.
 
 Libraries for Zigbee
 --------------------
 
 * Removed Zigbee libraries.
   They are now available as separate `Zigbee R22`_ and `Zigbee R23`_ add-on repositories.
-
-sdk-nrfxlib
------------
-
-See the changelog for each library in the :doc:`nrfxlib documentation <nrfxlib:README>` for additional information.
 
 Scripts
 =======
@@ -1170,11 +1107,6 @@ Google Fast Pair integration
   * The :ref:`ug_bt_fast_pair_prerequisite_ops_kconfig` section to align it with recent changes in the sysbuild configuration for Fast Pair.
   * The :ref:`ug_bt_fast_pair_gatt_service_fmdn_info_callbacks_provisioning_state` section with changes to the FMDN API elements that are used for tracking of the FMDN provisioning state.
 
-Edge Impulse integration
-------------------------
-
-|no_changes_yet_note|
-
 Memfault integration
 --------------------
 
@@ -1186,25 +1118,10 @@ Memfault integration
   To enable this feature, set the :kconfig:option:`CONFIG_MEMFAULT_NCS_POST_MODEM_TRACE_ON_COREDUMP` Kconfig option to ``y``.
   Only supported for nRF91 Series devices.
 
-AVSystem integration
---------------------
+sdk-nrfxlib
+-----------
 
-|no_changes_yet_note|
-
-nRF Cloud integration
----------------------
-
-|no_changes_yet_note|
-
-CoreMark integration
---------------------
-
-|no_changes_yet_note|
-
-DULT integration
-----------------
-
-|no_changes_yet_note|
+See the changelog for each library in the :doc:`nrfxlib documentation <nrfxlib:README>` for additional information.
 
 MCUboot
 =======
@@ -1297,5 +1214,5 @@ Documentation
   * The standalone page for getting started with the nRF9160 DK.
     This page has been replaced by the `Quick Start app`_ that supports the nRF9160 DK.
     The content about connecting the DK to nRF Cloud is now a standalone :ref:`nrf9160_gs_connecting_dk_to_cloud` page in the :ref:`ug_nrf9160` section.
-  * The section about migrating from Secure Partition Manager to Trusted Firmware-M, which was removed in the |NCS| v2.1.0 release.
+  * The guide about migrating from Secure Partition Manager (removed in the |NCS| v2.1.0 release) to Trusted Firmware-M.
     If you still need to migrate, see the `information in the nRF Connect SDK v2.0.0 documentation <Migrating from Secure Partition Manager to Trusted Firmware-M_>`_.
