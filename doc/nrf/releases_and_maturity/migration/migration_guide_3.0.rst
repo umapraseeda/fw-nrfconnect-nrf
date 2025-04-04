@@ -198,6 +198,142 @@ Build system
    * Erasing the external memory when programming a new firmware image with ``west flash`` series now always correctly honors the ``--erase`` flag (and its absence) both when using the ``nrfjprog`` and ``nrfutil`` backends.
      Prior to this release, the ``nrjfprog`` backend would always erase only the sectors of the external flash used by the new firmware, and the ``nrfutil`` backend would always erase the whole external flash.
 
+nRF54H20
+========
+
+This section describes the changes specific to the nRF54H20 SoC and DK support in the |NCS|.
+
+Dependencies
+------------
+
+The following required dependencies for the nRF54H20 SoC and DK have been updated.
+
+nRF54H20 BICR
++++++++++++++
+
+.. toggle::
+
+  * The nRF54H20 BICR has been updated (from the one supporting |NCS| v2.9.0 as well as |NCS| v2.9.0-nRF54H20-1).
+
+    To update the BICR of your development kit while in Root of Trust, do the following:
+
+    1. Build your application using |NCS| v2.9.0.
+    #. Connect the nRF54H20 DK to your computer using the **DEBUGGER** port on the DK.
+
+       .. note::
+          On MacOS, connecting the DK might repeatedly trigger a popup displaying the message ``Disk Not Ejected Properly``.
+          To disable this, run ``JLinkExe``, then run ``MSDDisable`` in the J-Link Commander interface.
+
+    #. List all the connected development kits to see their serial number (matching the one on the DK's sticker)::
+
+          nrfutil device list
+
+    #. Program the BICR by running nRF Util from your application folder using the following command::
+
+          nrfutil device program --options chip_erase_mode=ERASE_NONE --firmware ./build/<your_application_name>/zephyr/bicr.hex --core Application --serial-number <serial_number>
+
+nRF54H20 SoC binaries
++++++++++++++++++++++
+
+.. toggle::
+
+  * The *nRF54H20 SoC binaries* bundle has been updated to version 0.9.5.
+
+    .. caution::
+       If migrating from |NCS| v2.9.0 or lower, you must follow steps from :ref:`migration_2.9.0-nRF54H20-1` to update the *nRF54H20 SoC binaries* bundle to version 0.9.2.
+
+    .. note::
+       The nRF54H20 SoC binaries only support specific versions of the |NCS| and do not support rollbacks to a previous version.
+       Upgrading the nRF54H20 SoC binaries on your development kit might break the DK's compatibility with applications developed for previous versions of the |NCS|.
+       For more information, see :ref:`abi_compatibility`.
+
+    To update the SoC binaries bundle of your development kit while in Root of Trust, do the following:
+
+    1. Download the `nRF54H20 SoC binaries v0.9.5`_.
+
+       .. note::
+          On macOS, ensure that the ZIP file is not unpacked automatically upon download.
+
+    #. Purge the device as follows::
+
+          nrfutil device recover --core Application --serial-number <serial_number>
+          nrfutil device recover --core Network --serial-number <serial_number>
+          nrfutil device reset --reset-kind RESET_PIN --serial-number <serial_number>
+
+    #. Run ``west update``.
+    #. Move the correct :file:`.zip` bundle to a folder of your choice, then run nRF Util to program the binaries using the following command::
+
+          nrfutil device x-suit-dfu --firmware nrf54h20_soc_binaries_v0.9.5.zip --serial-number <serial_number>
+
+    #. Purge the device again as follows::
+
+          nrfutil device recover --core Application --serial-number <serial_number>
+          nrfutil device recover --core Network --serial-number <serial_number>
+          nrfutil device reset --reset-kind RESET_PIN --serial-number <serial_number>
+
+Application development
+-----------------------
+
+The following are the changes required to migrate your applications to the |NCS| v2.9.0-nRF54H20-1.
+
+Entropy source for radio applications
++++++++++++++++++++++++++++++++++++++
+
+The default entropy source was changed to use the SSF service.
+As a result, the communication channel as well as RAM regions, dedicated to communicate with the SDFW are now enabled by default.
+This may result in incompatible UICRs if your application relies on the defaults.
+If UICRs are incompatible, the application cannot be upgraded using DFU, but must be programmed using the **DEBUGGER** port.
+
+If you want to update your application using DFU, add the following overlay to your radio application if you want to maintain UICR compatibility:
+
+.. code-block:: dts
+
+   /* Switch back to the pseudo-random entropy source. */
+   / {
+      chosen {
+         zephyr,entropy = &prng;
+      };
+
+      /delete-node/ psa-rng;
+      prng: prng {
+         compatible = "nordic,entropy-prng";
+         status = "okay";
+      };
+   };
+
+   /* Disable IPC between cpusec <-> cpurad. */
+   &cpusec_cpurad_ipc {
+      status = "disabled";
+   };
+
+   &cpurad_ram0x_region {
+      status = "disabled";
+   };
+
+   &cpusec_bellboard {
+      status = "disabled";
+   };
+
+SUIT MPI configuration
+++++++++++++++++++++++
+
+The SUIT MPI configuration has been moved from local Kconfig options to sysbuild.
+To migrate your application, move all ``CONFIG_MPI_*`` options from the application configuration into the ``sysbuild.conf`` file.
+
+For example, to migrate the root manifest vendor ID, remove the following line from the ``prj.conf`` file:
+
+.. code-block:: kconfig
+
+   CONFIG_SUIT_MPI_ROOT_VENDOR_NAME="acme.corp"
+
+And add the following line inside the ``sysbuild.conf`` file:
+
+.. code-block:: kconfig
+
+   SB_CONFIG_SUIT_MPI_ROOT_VENDOR_NAME="acme.corp"
+
+If your project does not use the ``sysbuild.conf`` file, please create one.
+
 Samples and applications
 ========================
 
