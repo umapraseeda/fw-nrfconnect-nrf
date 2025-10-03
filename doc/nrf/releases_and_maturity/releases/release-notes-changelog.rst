@@ -27,6 +27,8 @@ See `known issues for nRF Connect SDK v3.1.0`_ for the list of issues valid for 
 
 Changelog
 *********
+The following sections provide detailed lists of changes by component.
+*********
 
 The following sections provide detailed lists of changes by component.
 
