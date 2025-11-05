@@ -1,7 +1,9 @@
+:orphan:
+
 .. _migration_3.2:
 
-Migration guide for |NCS| v3.2.0 (Working draft)
-################################################
+Migration guide for |NCS| v3.2.0
+################################
 
 .. contents::
    :local:
