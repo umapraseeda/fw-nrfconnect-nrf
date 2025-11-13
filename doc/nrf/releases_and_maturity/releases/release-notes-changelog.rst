@@ -1,16 +1,13 @@
-.. _ncs_release_notes_changelog:
+.. _ncs_release_notes_3.2.0-preview4:
 
-Changelog for |NCS| v3.1.99
-###########################
+Changelog for |NCS| v3.2.0-preview4
+###################################
 
 .. contents::
    :local:
    :depth: 2
 
-The most relevant changes that are present on the main branch of the |NCS|, as compared to the latest official release, are tracked in this file.
-
-.. note::
-   This file is a work in progress and might not cover all relevant changes.
+This changelog reflects the most relevant changes from the latest official release.
 
 .. HOWTO
 
