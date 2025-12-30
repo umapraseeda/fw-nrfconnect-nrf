@@ -1,3 +1,5 @@
+:orphan:
+
 .. _ncs_release_notes_changelog:
 
 Changelog for |NCS| v3.2.99
@@ -113,11 +115,7 @@ Developing with custom boards
 Security
 ========
 
-* Added:
-
-  * Support for the WPA3-SAE and WPA3-SAE-PT in the :ref:`CRACEN driver <crypto_drivers_cracen>`.
-  * Support for the HMAC KDF algorithm in the CRACEN driver.
-    The algorithm implementation is conformant to the NIST SP 800-108 Rev. 1 recommendation.
+|no_changes_yet_note|
 
 Protocols
 =========
@@ -143,8 +141,7 @@ Enhanced ShockBurst (ESB)
 -------------------------
 
 |no_changes_yet_note|
-
-* Fixed invalid radio configuration for legacy ESB protocol.
+|no_changes_yet_note|
 
 Gazell
 ------
@@ -154,7 +151,7 @@ Gazell
 Matter
 ------
 
-* Updated the :ref:`matter_test_event_triggers_default_test_event_triggers` section with the new Closure Control cluster test event triggers.
+|no_changes_yet_note|
 
 Matter fork
 +++++++++++
@@ -197,24 +194,12 @@ Matter bridge
 nRF5340 Audio
 -------------
 
-* Added dynamic configuration of the number of channels for the encoder based on the configured audio locations.
-  The number of channels is set during runtime using the :c:func:`audio_system_encoder_num_ch_set` function.
-  This allows configuring mono or stereo encoding depending on the configured audio locations, potentially saving CPU and memory resources.
-* Added high CPU load callback using the Zephyr CPU load subsystem.
-  The callback uses a :c:func:`printk` function, as the logging subsystem is scheduled out if higher priority threads take all CPU time.
-  This makes debugging high CPU load situations easier in the application.
-  The threshold for high CPU load is set in :file:`peripherals.c` using :c:macro:`CPU_LOAD_HIGH_THRESHOLD_PERCENT`.
-* Updated the buildprog/programming script.
-  Devices are now halted before programming.
-  Furthermore, the devices are kept halted until they are all programmed, and then started together
-  with the headsets starting first.
-  This eases sniffing of advertisement packets.
+|no_changes_yet_note|
 
 nRF Desktop
 -----------
 
-* Updated the :option:`CONFIG_DESKTOP_BT` Kconfig option to no longer select the deprecated :kconfig:option:`CONFIG_BT_SIGNING` Kconfig option.
-  Application relies on Bluetooth LE security mode 1 and security level of at least 2 to ensure data confidentiality through encryption.
+|no_changes_yet_note|
 
 nRF Machine Learning (Edge Impulse)
 -----------------------------------
@@ -254,9 +239,7 @@ Cellular samples
 Cryptography samples
 --------------------
 
-* :ref:`crypto_aes_ccm` sample:
-
-  * Added support for the ``nrf54lm20dk/nrf54lm20a/cpuapp`` board target.
+|no_changes_yet_note|
 
 Debug samples
 -------------
@@ -282,10 +265,7 @@ Gazell samples
 --------------
 
 |no_changes_yet_note|
-
 |ISE| samples
---------------
-
 |no_changes_yet_note|
 
 Keys samples
@@ -296,13 +276,7 @@ Keys samples
 Matter samples
 --------------
 
-* :ref:`matter_manufacturer_specific_sample`:
-
-  * Added support for the ``NRF_MATTER_CLUSTER_INIT`` macro.
-
-* :ref:`matter_closure_sample`:
-
-  * Added support for the Closure Control cluster test event triggers.
+|no_changes_yet_note|
 
 Networking samples
 ------------------
@@ -427,9 +401,7 @@ Security libraries
 Modem libraries
 ---------------
 
-* :ref:`lte_lc_readme` library:
-
-  * Added support for new PDN events :c:enumerator:`LTE_LC_EVT_PDN_SUSPENDED` and :c:enumerator:`LTE_LC_EVT_PDN_RESUMED`.
+|no_changes_yet_note|
 
 Multiprotocol Service Layer libraries
 -------------------------------------
@@ -454,9 +426,7 @@ nRF RPC libraries
 Other libraries
 ---------------
 
-* :ref:`lib_hw_id` library:
-
-  * The ``CONFIG_HW_ID_LIBRARY_SOURCE_BLE_MAC`` Kconfig option has been renamed to :kconfig:option:`CONFIG_HW_ID_LIBRARY_SOURCE_BT_DEVICE_ADDRESS`.
+|no_changes_yet_note|
 
 Shell libraries
 ---------------
@@ -492,11 +462,7 @@ Memfault integration
 --------------------
 
 |no_changes_yet_note|
-
-* Added:
-
-  * The option ``CONFIG_MEMFAULT_NCS_POST_INITIAL_HEARTBEAT_ON_NETWORK_CONNECTED`` to control whether an initial heartbeat is sent when the device connects to a network.
-    Useful to be able to show device status and initial metrics in the Memfault dashboard as soon as possible after boot.
+|no_changes_yet_note|
 
 AVSystem integration
 --------------------
