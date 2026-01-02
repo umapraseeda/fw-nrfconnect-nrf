@@ -207,7 +207,6 @@ nRF Machine Learning (Edge Impulse)
 
 |no_changes_yet_note|
 
-
 Thingy:53: Matter weather station
 ---------------------------------
 
@@ -466,7 +465,7 @@ Edge Impulse integration
 Memfault integration
 --------------------
 
-* Updated the ``CONFIG_MEMFAULT_DEVICE_INFO_BUILTIN`` Kconfig option has been renamed to :kconfig:option:`CONFIG_MEMFAULT_NCS_DEVICE_INFO_BUILTIN`.
+|no_changes_yet_note|
 
 AVSystem integration
 --------------------
