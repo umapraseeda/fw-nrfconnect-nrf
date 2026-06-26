@@ -424,6 +424,7 @@
 
 .. #### Source: www.nordicsemi.com/Events/, https://www.nordicsemi.com/Resources/, https://webinars.nordicsemi.com/events
 
+.. _`nRF Connect SDK v3.4.0 webinar`:
 .. _`nRF Connect SDK v3.2.0 webinar`:
 .. _`nRF Connect SDK v3.0.0 webinar`:
 .. _`nRF Connect SDK v2.9.0 webinar`:
@@ -927,6 +928,7 @@
 .. _`Managing keys`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/mcuboot/imgtool.html#managing-keys
 
 .. _`known issues page on the main branch`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html
+.. _`known issues for nRF Connect SDK v3.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v3-4-0
 .. _`known issues for nRF Connect SDK v3.3.1`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v3-3-1
 .. _`known issues for nRF Connect SDK v3.3.0`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v3-3-0
 .. _`known issues for nRF Connect SDK v3.2.4`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v3-2-4
@@ -987,6 +989,7 @@
 .. _`known issues for nRF Connect SDK v1.4.1`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v1-4-1
 .. _`known issues for nRF Connect SDK v1.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v1-4-0
 
+.. _`Repositories and revisions for v3.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/3.4.0/nrf/releases_and_maturity/repository_revisions.html
 .. _`Repositories and revisions for v3.3.1`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.1/nrf/releases_and_maturity/repository_revisions.html
 .. _`Repositories and revisions for v3.3.0`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.0/nrf/releases_and_maturity/repository_revisions.html
 .. _`Repositories and revisions for v3.2.4`: https://nrfconnectdocs.nordicsemi.com/ncs/3.2.4/nrf/releases_and_maturity/repository_revisions.html
@@ -1036,6 +1039,7 @@
 .. _`Repositories and revisions for v1.9.1`: https://nrfconnectdocs.nordicsemi.com/ncs/1.9.1/nrf/introduction.html#repositories-and-revisions
 .. _`Repositories and revisions`: https://nrfconnectdocs.nordicsemi.com/ncs/1.9.0/nrf/introduction.html#repositories-and-revisions
 
+.. _`Modem library changelog for v3.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs-3.4.0/page/nrfxlib/nrf_modem/doc/CHANGELOG.html#nrf-modem-changelog
 .. _`Modem library changelog for v3.3.1`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.1/nrfxlib/nrf_modem/doc/CHANGELOG.html#nrf-modem-changelog
 .. _`Modem library changelog for v3.3.0`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.0/nrfxlib/nrf_modem/doc/CHANGELOG.html#nrf-modem-changelog
 .. _`Modem library changelog for v3.2.4`: https://nrfconnectdocs.nordicsemi.com/ncs/3.2.4/nrfxlib/nrf_modem/doc/CHANGELOG.html#nrf-modem-changelog
@@ -1084,6 +1088,7 @@
 .. _`Modem library changelog for v1.9.1`: https://nrfconnectdocs.nordicsemi.com/ncs/1.9.1/nrfxlib/nrf_modem/doc/CHANGELOG.html
 .. _`Modem library changelog for v1.9.0`: https://nrfconnectdocs.nordicsemi.com/ncs/1.9.0/nrfxlib/nrf_modem/doc/CHANGELOG.html
 
+.. _`LwM2M carrier library changelog for v3.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/3.4.0/page/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html#liblwm2m-carrier-changelog
 .. _`LwM2M carrier library changelog for v3.3.1`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.1/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html#liblwm2m-carrier-changelog
 .. _`LwM2M carrier library changelog for v3.3.0`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.0/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html#liblwm2m-carrier-changelog
 .. _`LwM2M carrier library changelog for v3.2.4`: https://nrfconnectdocs.nordicsemi.com/ncs/3.2.4/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html#liblwm2m-carrier-changelog
@@ -1132,6 +1137,7 @@
 .. _`LwM2M carrier library changelog for v1.9.1`: https://nrfconnectdocs.nordicsemi.com/ncs/1.9.1/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html
 .. _`LwM2M carrier library changelog for v1.9.0`: https://nrfconnectdocs.nordicsemi.com/ncs/1.9.0/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html
 
+.. _`Migration guide for nRF Connect SDK v3.5.0`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/migration/migration_guide_3.5.html
 .. _`Migration notes for nRF Connect SDK v3.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/migration/migration_guide_3.4.html
 .. _`Migration notes for nRF Connect SDK v3.3.0`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/migration/migration_guide_3.3.html
 .. _`Migration notes for nRF Connect SDK v3.2.0`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/migration/migration_guide_3.2.html
@@ -1192,6 +1198,8 @@
 
 .. ### Source: files.nordicsemi.com
 
+.. _`Twister test report for nRF Connect SDK v3.4.0`: https://files.nordicsemi.com/ui/api/v1/download/contentBrowsing/NCS/external/release/v3.4.0/test-report/twister_test_results_report.html?isNativeBrowsing=true
+.. _`Hardware test report for nRF Connect SDK v3.4.0`: https://files.nordicsemi.com/ui/api/v1/download/contentBrowsing/NCS/external/release/v3.4.0/test-report/common_ncs_test_results_report.html?isNativeBrowsing=true
 .. _`Twister test report for nRF Connect SDK v3.3.0`: https://files.nordicsemi.com/ui/api/v1/download/contentBrowsing/NCS/external/release/v3.3.0/test-report/twister_test_results_report.html?isNativeBrowsing=true
 .. _`Hardware test report for nRF Connect SDK v3.3.0`: https://files.nordicsemi.com/ui/api/v1/download/contentBrowsing/NCS/external/release/v3.3.0/test-report/common_ncs_test_results_report.html?isNativeBrowsing=true
 .. _`Twister test report for nRF Connect SDK v3.2.0`: https://files.nordicsemi.com/ui/api/v1/download/contentBrowsing/NCS/external/release/v3.2.0/test-report/twister_test_results_report.html?isNativeBrowsing=true
